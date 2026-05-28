@@ -7,7 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class ErrorHandlerUtil {
 
-    public static void handleError(String context, Exception error, Logger logger) {
+    public static ResponseStatusException handleError(String context, Exception error, Logger logger) {
         
         if (error instanceof ResponseStatusException) {
             throw (ResponseStatusException) error;
@@ -17,7 +17,7 @@ public class ErrorHandlerUtil {
 
         logger.error("[{}] error: {}", context, message, error);
 
-        throw new ResponseStatusException(
+        return new ResponseStatusException(
             HttpStatus.INTERNAL_SERVER_ERROR, 
             "Erro interno ao processar a operação em: " + context
         );
