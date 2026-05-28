@@ -1,6 +1,6 @@
 package com.example.Almoxarifado.model;
 
-import com.example.Almoxarifado.common.StatusEnum;
+import com.example.Almoxarifado.common.enums.StatusChaveEnum;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,5 +14,5 @@ public class Chave {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sala;
-    private StatusEnum status;
+    private StatusChaveEnum status;
 }
