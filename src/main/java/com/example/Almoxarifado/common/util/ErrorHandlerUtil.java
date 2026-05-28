@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-public class ErrorHandleUtil {
+public class ErrorHandlerUtil {
 
     public static void handleError(String context, Exception error, Logger logger) {
         
