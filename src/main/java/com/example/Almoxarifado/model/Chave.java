@@ -1,8 +1,10 @@
 package com.example.Almoxarifado.model;
 
 import com.example.Almoxarifado.common.enums.StatusChaveEnum;
+import com.example.Almoxarifado.common.typeValidations.IsEnum;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +15,11 @@ public class Chave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "O identificador da sala é obrigatório.")
     private String sala;
-    private StatusChaveEnum status;
+
+    @NotBlank(message = "O status da chave é obrigatório.")
+    @IsEnum(enumClass = StatusChaveEnum.class, message = "Status inválido. Use DISPONÍVEL, EMPRESTADA ou DESATIVADA.")
+    private String status;
 }
