@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 import com.example.Almoxarifado.model.Chave;
 
 @Repository
-public interface ChaveRepository extends JpaRepository<Chave, Long> {
-
-}
+public interface ChaveRepository extends JpaRepository<Chave, Long> {}
