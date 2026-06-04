@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "chaves")
 @Getter
 @Setter
 public class Chave {
