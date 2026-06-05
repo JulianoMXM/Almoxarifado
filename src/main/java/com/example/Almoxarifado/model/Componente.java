@@ -1,6 +1,7 @@
 package com.example.Almoxarifado.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public abstract class Componente {
 
     @NotBlank(message = "A quantidade de itens é obrigatória.")
     @PositiveOrZero(message = "A quantidade de itens não pode ser negativa")
+    @Max(value = 1000000, message = "A quantidade de itens é muito alta.")
     private int qntDisponivel;
 
     @NotBlank(message = "O modelo é obrigatório.")

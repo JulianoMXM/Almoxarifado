@@ -51,8 +51,8 @@ public class DiodoController {
         if(dto.getCorrenteDiretaMaxima() != null){
             diodoExistente.setCorrenteDiretaMaxima(dto.getCorrenteDiretaMaxima());
         }
-        if(dto.getTolerancia() != null){
-            diodoExistente.setTolerancia(dto.getTolerancia());
+        if(dto.getQuedaDeTensao() != null){
+            diodoExistente.setQuedaDeTensao(dto.getQuedaDeTensao());
         }
         if(dto.getTipoDiodo() != null){
             diodoExistente.setTipoDiodo(dto.getTipoDiodo());
