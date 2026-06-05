@@ -35,8 +35,7 @@ public class ChaveController {
 
     @GetMapping("/{id}")
     public Chave consultarChave(@PathVariable Long id) throws NotFoundException{
-        Chave chave = repository.findById(id).orElseThrow(() -> new NotFoundException());
-        return chave;
+        return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
     @PostMapping
