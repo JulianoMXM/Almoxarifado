@@ -45,6 +45,15 @@ public class ResistorController {
     public Resistor atualizarResistor(@Valid @RequestBody AtualizarResistorDTO dto, @PathVariable Long id) throws NotFoundException{
         Resistor resistorExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
 
+        if(dto.getModelo() != null){
+            resistorExistente.setModelo(dto.getModelo());
+        }
+        if(dto.getDescricao() != null){
+            resistorExistente.setDescricao(dto.getDescricao());
+        }
+        if(dto.getQntDisponivel() != null){
+            resistorExistente.setQntDisponivel(dto.getQntDisponivel());
+        }
         if(dto.getResistencia() != null){
             resistorExistente.setResistencia(dto.getResistencia());
         }

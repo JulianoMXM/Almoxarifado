@@ -45,6 +45,15 @@ public class CapacitorController {
     public Capacitor atualizarCapacitor(@Valid @RequestBody AtualizarCapacitorDTO dto, @PathVariable Long id) throws NotFoundException{
         Capacitor capacitorExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
 
+        if(dto.getModelo() != null){
+            capacitorExistente.setModelo(dto.getModelo());
+        }
+        if(dto.getDescricao() != null){
+            capacitorExistente.setDescricao(dto.getDescricao());
+        }
+        if(dto.getQntDisponivel() != null){
+            capacitorExistente.setQntDisponivel(dto.getQntDisponivel());
+        }
         if(dto.getCapacitancia() != null){
             capacitorExistente.setCapacitancia(dto.getCapacitancia());
         }

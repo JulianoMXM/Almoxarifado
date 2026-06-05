@@ -45,6 +45,15 @@ public class ProtoboardController {
     public Protoboard atualizarProtoboard(@Valid @RequestBody AtualizarProtoboardDTO dto, @PathVariable Long id) throws NotFoundException{
         Protoboard protoboardExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
 
+        if(dto.getModelo() != null){
+            protoboardExistente.setModelo(dto.getModelo());
+        }
+        if(dto.getDescricao() != null){
+            protoboardExistente.setDescricao(dto.getDescricao());
+        }
+        if(dto.getQntDisponivel() != null){
+            protoboardExistente.setQntDisponivel(dto.getQntDisponivel());
+        }
         if(dto.getTensaoMaxima() != null){
             protoboardExistente.setTensaoMaxima(dto.getTensaoMaxima());
         }

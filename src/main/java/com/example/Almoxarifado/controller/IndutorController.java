@@ -45,6 +45,15 @@ public class IndutorController {
     public Indutor atualizarIndutor(@Valid @RequestBody AtualizarIndutorDTO dto, @PathVariable Long id) throws NotFoundException{
         Indutor indutorExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
 
+        if(dto.getModelo() != null){
+            indutorExistente.setModelo(dto.getModelo());
+        }
+        if(dto.getDescricao() != null){
+            indutorExistente.setDescricao(dto.getDescricao());
+        }
+        if(dto.getQntDisponivel() != null){
+            indutorExistente.setQntDisponivel(dto.getQntDisponivel());
+        }
         if(dto.getIndutancia() != null){
             indutorExistente.setIndutancia(dto.getIndutancia());
         }

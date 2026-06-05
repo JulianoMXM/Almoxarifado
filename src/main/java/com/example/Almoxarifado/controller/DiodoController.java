@@ -44,7 +44,16 @@ public class DiodoController {
     @PatchMapping("/{id}")
     public Diodo atualziarDiodo(@Valid @RequestBody AtualizarDiodoDTO dto, @PathVariable Long id) throws NotFoundException{
         Diodo diodoExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
-
+    
+        if(dto.getModelo() != null){
+            diodoExistente.setModelo(dto.getModelo());
+        }
+        if(dto.getDescricao() != null){
+            diodoExistente.setDescricao(dto.getDescricao());
+        }
+        if(dto.getQntDisponivel() != null){
+            diodoExistente.setQntDisponivel(dto.getQntDisponivel());
+        }
         if(dto.getTensaoReversaMaxima() != null){
             diodoExistente.setTensaoReversaMaxima(dto.getTensaoReversaMaxima());
         }
