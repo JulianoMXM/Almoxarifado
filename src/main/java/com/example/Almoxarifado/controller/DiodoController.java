@@ -1,7 +1,10 @@
 package com.example.Almoxarifado.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 public class DiodoController {
     @Autowired
     private DiodoRepository repository;
+
+    @GetMapping
+    public List<Diodo> consultarTodosDiodos(){
+        return repository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Diodo consultarDiodo(@PathVariable Long id) throws NotFoundException{
+        return repository.findById(id).orElseThrow(() -> new NotFoundException());
+    }
 
     @PostMapping
     public Diodo cadastrarDiodo(@Valid @RequestBody Diodo novoDiodo){
