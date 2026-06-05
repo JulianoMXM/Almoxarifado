@@ -16,15 +16,15 @@ import lombok.Setter;
 public class Capacitor extends Componente{
     @NotBlank(message = "A capacitância é obrigatória.")
     @PositiveOrZero(message = "A capacitância não pode ser negativa.")
-    private float capacitancia;
+    private Float capacitancia;
 
     @NotBlank(message = "A tensão máxima é obrigatória.")
     @PositiveOrZero(message = "A tensão máxima não pode ser negativa.")
-    private float tensaoMaxima;
+    private Float tensaoMaxima;
 
     @NotBlank(message = "A tolerância é obrigatória.")
     @PositiveOrZero(message = "A tolerância não pode ser negativa.")
-    private float tolerancia;
+    private Float tolerancia;
 
     @NotBlank(message = "A unidade de medida é obrigatória.")
     @IsEnum(enumClass = UnidadeDeMedidaEnum.class, message = "Unidade inválida. Use p, u, m, padrao, k ou M.")

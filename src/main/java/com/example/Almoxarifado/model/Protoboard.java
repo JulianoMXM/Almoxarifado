@@ -13,13 +13,13 @@ import lombok.Setter;
 public class Protoboard extends Componente{
     @NotBlank(message = "A potência máxima é obrigatória.")
     @PositiveOrZero(message = "A potência máxima não pode ser negativa.")
-    private float potenciaMaxima;
+    private Float potenciaMaxima;
 
     @NotBlank(message = "A corrente máxima é obrigatória.")
     @PositiveOrZero(message = "A corrente máxima não pode ser negativa.")
-    private float correnteMaxima;
+    private Float correnteMaxima;
 
     @NotBlank(message = "A tensão máxima é obrigatória.")
     @PositiveOrZero(message = "A tensão máxima não pode ser negativa.")
-    private float tensaoMaxima;
+    private Float tensaoMaxima;
 }

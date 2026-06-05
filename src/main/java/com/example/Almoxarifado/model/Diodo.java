@@ -16,15 +16,15 @@ import lombok.Setter;
 public class Diodo extends Componente{
     @NotBlank(message = "A tensao reversa máxima é obrigatória.")
     @PositiveOrZero(message = "A tensão reversa máxima não pode ser negativa.")
-    private float tensaoReversaMaxima;
+    private Float tensaoReversaMaxima;
 
     @NotBlank(message = "A corrente direta máxima é obrigatória.")
     @PositiveOrZero(message = "A corrente direta máxima não pode ser negativa.")
-    private float correnteDiretaMaxima;
+    private Float correnteDiretaMaxima;
 
     @NotBlank(message = "A queda de tensão é obrigatória.")
     @PositiveOrZero(message = "A queda de tensão não pode ser negativa.")
-    private float tolerancia;
+    private Float tolerancia;
 
     @NotBlank(message = "O tipo de diodo é obrigatório.")
     @IsEnum(enumClass = TipoDiodoEnum.class, message = "Tipo inválido. Use RETIFICADOR, ZENER, LED, FOTODIODO, SCHOTTKY ou VARICAP.")

@@ -16,15 +16,15 @@ import lombok.Setter;
 public class Indutor extends Componente{
     @NotBlank(message = "A indutância é obrigatória.")
     @PositiveOrZero(message = "A indutância não pode ser negativa.")
-    private float indutancia;
+    private Float indutancia;
 
     @NotBlank(message = "A corrente máxima é obrigatória.")
     @PositiveOrZero(message = "A corrente máxima não pode ser negativa.")
-    private float correnteMaxima;
+    private Float correnteMaxima;
 
     @NotBlank(message = "A tolerância é obrigatória.")
     @PositiveOrZero(message = "A tolerância não pode ser negativa.")
-    private float tolerancia;
+    private Float tolerancia;
 
     @NotBlank(message = "A unidade de medida é obrigatória.")
     @IsEnum(enumClass = UnidadeDeMedidaEnum.class, message = "Unidade inválida. Use p, u, m, padrao, k ou M.")
