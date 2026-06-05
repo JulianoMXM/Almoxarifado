@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AtualizarProtoboardDTO {
+public class AtualizarProtoboardDTO extends AtualizarComponenteDTO{
     @PositiveOrZero(message = "A potência máxima não pode ser negativa.")
     @Max(value = 1000, message = "A potência máxima é muito alta.")
     private Float potenciaMaxima;

@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AtualizarIndutorDTO {
+public class AtualizarIndutorDTO extends AtualizarComponenteDTO{
     @PositiveOrZero(message = "A indutância não pode ser negativa.")
     @Max(value = 100000000, message = "A indutância é muito alta.")
     private Double indutancia;

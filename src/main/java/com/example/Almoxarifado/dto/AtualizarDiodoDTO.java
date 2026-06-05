@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AtualizarDiodoDTO {
+public class AtualizarDiodoDTO extends AtualizarComponenteDTO{
     @PositiveOrZero(message = "A tensão reversa máxima não pode ser negativa.")
     @Max(value = 1000, message = "A tensão reversa é muito alta.")
     private Float tensaoReversaMaxima;

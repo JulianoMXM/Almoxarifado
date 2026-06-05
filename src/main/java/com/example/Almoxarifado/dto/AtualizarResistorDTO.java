@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AtualizarResistorDTO {
+public class AtualizarResistorDTO extends AtualizarComponenteDTO{
     @PositiveOrZero(message = "A resistência não pode ser negativa.")
     @Max(value = 100000000, message = "A resistência é muito alta.")
     private Double resistencia;

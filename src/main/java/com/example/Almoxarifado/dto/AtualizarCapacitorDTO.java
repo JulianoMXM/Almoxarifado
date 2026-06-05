@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AtualizarCapacitorDTO {
+public class AtualizarCapacitorDTO extends AtualizarComponenteDTO{
     @PositiveOrZero(message = "A capacitância não pode ser negativa.")
     @Max(value = 100000000, message = "O valor de capacitância é muito alto.")
     private Double capacitancia;
