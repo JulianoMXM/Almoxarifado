@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Almoxarifado.dto.AtualizarResistorDTO;
-import com.example.Almoxarifado.model.Protoboard;
 import com.example.Almoxarifado.model.Resistor;
 import com.example.Almoxarifado.repository.ResistorRepository;
 
