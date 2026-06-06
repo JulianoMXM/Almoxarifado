@@ -36,7 +36,7 @@ public class DiscenteController {
         return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
-    @GetMapping("/Discente/{ra}")
+    @GetMapping("/discente/{ra}")
     public Discente consultarDiscenteRa(@PathVariable String ra) throws NotFoundException {
         return repository.findByRa(ra).orElseThrow(() -> new NotFoundException());
     }

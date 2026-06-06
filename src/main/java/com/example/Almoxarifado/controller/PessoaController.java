@@ -34,7 +34,7 @@ public class PessoaController {
         return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
     
-    @GetMapping("/Pessoa/{cpf}") // espero que essa minha lógica funcione, pq se não vou ficar lelé
+    @GetMapping("/pessoa/{cpf}") // espero que essa minha lógica funcione, pq se não vou ficar lelé
     public Pessoa consultarPessoaCpf(@PathVariable String cpf) throws NotFoundException {
         return repository.findByCpf(cpf).orElseThrow(() -> new NotFoundException());
     }

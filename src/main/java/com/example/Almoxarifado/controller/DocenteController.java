@@ -38,7 +38,7 @@ public class DocenteController {
         return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
     
-    @GetMapping("/Docente/{siape}") // aqui vai encontrar o docente usando o siape, espero que funcione xd
+    @GetMapping("/docente/{siape}") // aqui vai encontrar o docente usando o siape, espero que funcione xd
     public Docente consultarDocenteSiape(@PathVariable String siape) throws NotFoundException {
         return repository.findBySiape(siape).orElseThrow(() -> new NotFoundException());
     }
