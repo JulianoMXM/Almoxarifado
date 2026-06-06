@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Almoxarifado.common.enums.TipoDiodoEnum;
 import com.example.Almoxarifado.dto.AtualizarDiodoDTO;
 import com.example.Almoxarifado.model.Diodo;
 import com.example.Almoxarifado.repository.DiodoRepository;
@@ -27,7 +29,12 @@ public class DiodoController {
     private DiodoRepository repository;
 
     @GetMapping
-    public List<Diodo> consultarTodosDiodos(){
+    public List<Diodo> consultarTodosDiodos(
+        @RequestParam(required = false) TipoDiodoEnum tipo
+    ){
+        if(tipo != null){
+            return repository.findByTipoDiodo(tipo);
+        }
         return repository.findAll();
     }
 

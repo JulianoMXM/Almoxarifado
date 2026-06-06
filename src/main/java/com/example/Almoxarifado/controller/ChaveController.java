@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Almoxarifado.dto.AtualizarChaveDTO;
@@ -29,7 +30,12 @@ public class ChaveController {
     private ChaveRepository repository;
 
     @GetMapping
-    public List<Chave> consultarTodasChaves() {
+    public List<Chave> consultarTodasChaves(
+        @RequestParam(required = false) String sala
+    ) {
+        if(sala != null){
+            return repository.findBySala(sala);
+        }
         return repository.findAll();
     }
 
