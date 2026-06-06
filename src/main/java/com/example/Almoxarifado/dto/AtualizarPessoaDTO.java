@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class AtualizarPessoaDTO {
     private String nome;
-    
     private String email;
 
     @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato XXX.XXX.XXX-XX")
