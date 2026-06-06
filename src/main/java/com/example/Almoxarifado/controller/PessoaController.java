@@ -11,6 +11,8 @@ import com.example.Almoxarifado.model.Pessoa;
 import com.example.Almoxarifado.repository.PessoaRepository;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -32,8 +34,15 @@ public class PessoaController {
         return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
     
-    @GetMapping("/cpf/{cpf}")
+    @GetMapping("/Pessoa/{cpf}") // espero que essa minha lógica funcione, pq se não vou ficar lelé
     public Pessoa consultarPessoaCpf(@PathVariable String cpf) throws NotFoundException {
         return repository.findByCpf(cpf).orElseThrow(() -> new NotFoundException());
+    }
+
+    @DeleteMapping("/{id}") 
+    public String deletarPessoa(@PathVariable Long id) throws NotFoundException {
+        Pessoa pessoaExistente = this.consultarPessoaId(id);
+        repository.delete(pessoaExistente);
+        return "Pessoa deletada com sucesso.";
     }
 }
