@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class AtualizarUsuarioDTO extends AtualizarPessoaDTO {
     private String senha;
-    private Boolean adm;
 }
