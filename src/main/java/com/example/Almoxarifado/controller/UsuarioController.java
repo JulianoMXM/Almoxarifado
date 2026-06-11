@@ -64,7 +64,7 @@ public class UsuarioController {
         return repository.save(usuarioExistente);
     }
 
-    @PatchMapping("/{id}/promover-adm")
+    @PatchMapping("/promover-adm/{id}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Usuario promoverUsuarioParaAdmin(@PathVariable Long id) throws NotFoundException {
         Usuario usuarioExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());

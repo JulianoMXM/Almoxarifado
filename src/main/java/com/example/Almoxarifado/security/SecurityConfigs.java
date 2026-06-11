@@ -20,8 +20,12 @@ public class SecurityConfigs {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
+                    // Permitir acesso ao site (HTML) e recursos estáticos
+                    req.requestMatchers("/", "/index.html", "/style.css", "/script.js").permitAll();
+                    // Permitir login
                     req.requestMatchers(HttpMethod.POST, "/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/usuario").permitAll();
+                    // Resto das requisições precisa autenticação
                     req.anyRequest().authenticated();
                 })
                 .build();
