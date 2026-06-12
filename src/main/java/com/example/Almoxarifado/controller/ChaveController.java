@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Almoxarifado.dto.AtualizarChaveDTO;
@@ -23,13 +25,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/chaves")
+@CrossOrigin(origins = "*")
 public class ChaveController {
     
     @Autowired
     private ChaveRepository repository;
 
     @GetMapping
-    public List<Chave> consultarTodasChaves() {
+    public List<Chave> consultarTodasChaves(
+        @RequestParam(required = false) String sala
+    ) {
+        if(sala != null){
+            return repository.findBySala(sala);
+        }
         return repository.findAll();
     }
 
