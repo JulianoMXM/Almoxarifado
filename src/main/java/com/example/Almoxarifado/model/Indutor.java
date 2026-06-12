@@ -6,6 +6,7 @@ import com.example.Almoxarifado.common.typeValidations.IsEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,17 +16,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Indutor extends Componente{
-    @NotBlank(message = "A indutância é obrigatória.")
+    @NotNull(message = "A indutância é obrigatória.")
     @PositiveOrZero(message = "A indutância não pode ser negativa.")
     @Max(value = 100000000, message = "A indutância é muito alta.")
     private Double indutancia;
 
-    @NotBlank(message = "A corrente máxima é obrigatória.")
+    @NotNull(message = "A corrente máxima é obrigatória.")
     @PositiveOrZero(message = "A corrente máxima não pode ser negativa.")
     @Max(value = 1000, message = "A corrente máxima é muito alta.")
     private Float correnteMaxima;
 
-    @NotBlank(message = "A tolerância é obrigatória.")
+    @NotNull(message = "A tolerância é obrigatória.")
     @PositiveOrZero(message = "A tolerância não pode ser negativa.")
     @Max(value = 100, message = "A tolerância é muito alta.")
     private Float tolerancia;

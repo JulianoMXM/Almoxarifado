@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/resistor")
+@CrossOrigin(origins = "*")
 public class ResistorController {
     @Autowired
     private ResistorRepository repository;
@@ -32,7 +34,7 @@ public class ResistorController {
     public List<Resistor> consultarTodasResistores(
         @RequestParam(required = false) Double min,
         @RequestParam(required = false) Double max,
-        @RequestParam(required = false) UnidadeDeMedidaEnum unidade
+        @RequestParam(required = false) String unidade
     ){
         if(min == null && max == null && unidade == null){
              return repository.findAll();

@@ -6,6 +6,7 @@ import com.example.Almoxarifado.common.typeValidations.IsEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,17 +16,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Resistor extends Componente{
-    @NotBlank(message = "A resistência é obrigatória.")
+    @NotNull(message = "A resistência é obrigatória.")
     @PositiveOrZero(message = "A resistência não pode ser negativa.")
     @Max(value = 100000000, message = "A resistência é muito alta.")
     private Double resistencia;
 
-    @NotBlank(message = "A potência máxima é obrigatória.")
+    @NotNull(message = "A potência máxima é obrigatória.")
     @PositiveOrZero(message = "A potência máxima não pode ser negativa.")
     @Max(value = 1000, message = "A potência máxima é muito alta.")
     private Float potenciaMaxima;
 
-    @NotBlank(message = "A tolerância é obrigatória.")
+    @NotNull(message = "A tolerância é obrigatória.")
     @PositiveOrZero(message = "A tolerância não pode ser negativa.")
     @Max(value = 100, message = "A tolerância é muito alta.")
     private Float tolerancia;
