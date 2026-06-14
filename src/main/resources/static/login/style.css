@@ -1,0 +1,12 @@
+:root{--bg:#f5f7fb;--card:#ffffff;--accent:#2b6cb0}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);display:flex;align-items:center;justify-content:center;height:100vh}
+.container{width:360px;background:var(--card);padding:20px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.tabs{display:flex;margin-bottom:12px}
+.tabs button{flex:1;padding:10px;border:none;background:transparent;cursor:pointer;font-weight:600}
+.tabs button.active{border-bottom:3px solid var(--accent);color:var(--accent)}
+.form{display:flex;flex-direction:column;gap:8px}
+.form.hidden{display:none}
+input{padding:10px;border:1px solid #ddd;border-radius:4px}
+button{padding:10px;border:none;background:var(--accent);color:#fff;border-radius:4px;cursor:pointer}
+.msg{height:18px;color:#b00020;font-size:0.9rem;margin:6px 0}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Almoxarifado</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="container">
+      <div class="tabs">
+        <button id="btn-login" class="active">Entrar</button>
+        <button id="btn-register">Cadastrar</button>
+      </div>
+
+      <section id="login-form" class="form">
+        <h2>Entrar</h2>
+        <label>Email</label>
+        <input id="login-email" type="email" placeholder="seu@email.com" required>
+        <label>Senha</label>
+        <input id="login-senha" type="password" placeholder="Senha" required>
+        <button id="login-submit">Entrar</button>
+        <p id="login-msg" class="msg"></p>
+      </section>
+
+      <section id="register-form" class="form hidden">
+        <h2>Cadastrar</h2>
+        <label>Nome</label>
+        <input id="reg-nome" type="text" placeholder="Nome completo">
+        <label>Email</label>
+        <input id="reg-email" type="email" placeholder="seu@email.com">
+        <label>CPF (XXX.XXX.XXX-XX)</label>
+        <input id="reg-cpf" type="text" placeholder="000.000.000-00">
+        <label>Senha</label>
+        <input id="reg-senha" type="password" placeholder="Senha">
+        <button id="reg-submit">Cadastrar</button>
+        <p id="reg-msg" class="msg"></p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
