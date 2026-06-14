@@ -25,12 +25,16 @@ q('reg-submit').addEventListener('click', async ()=>{
     const res = await fetch('/usuario', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
     if(res.ok){
       showMsg('reg-msg','Cadastro realizado. Faça login.')
+      q('reg-nome').value = ''
+      q('reg-email').value = ''
+      q('reg-cpf').value = ''
+      q('reg-senha').value = ''
       q('btn-login').click()
     } else {
       const text = await res.text()
       showMsg('reg-msg', 'Erro: '+ (text || res.status))
     }
-  }catch(e){ showMsg('reg-msg','Erro de rede') }
+  }catch(e){ showMsg('reg-msg','Erro de rede: '+e.message) }
 })
 
 // Login
@@ -45,12 +49,20 @@ q('login-submit').addEventListener('click', async ()=>{
   try{
     const res = await fetch('/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
     if(res.ok){
-      // Se backend retornar JSON com token, salvar e redirecionar
-      try{ const data = await res.json(); if(data.token) localStorage.setItem('token', data.token) }catch(e){}
-      window.location.href = '/componentes/index.html'
+      const data = await res.json()
+      if(data.token){
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('userId', data.userId)
+        localStorage.setItem('userEmail', data.email)
+        localStorage.setItem('userName', data.nome)
+        window.location.href = '/componentes/index.html'
+      } else {
+        showMsg('login-msg', 'Erro: Token não recebido')
+      }
     } else {
       const txt = await res.text()
-      showMsg('login-msg', 'Falha: '+(txt || res.status))
+      showMsg('login-msg', 'Falha: '+(txt || 'Erro '+res.status))
     }
-  }catch(e){ showMsg('login-msg','Erro de rede') }
+  }catch(e){ showMsg('login-msg','Erro de rede: '+e.message) }
 })
+
