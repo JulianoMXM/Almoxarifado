@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.Almoxarifado.common.enums.TipoUsuarioEnum;
 import com.example.Almoxarifado.dto.AtualizarUsuarioDTO;
 import com.example.Almoxarifado.model.Usuario;
 import com.example.Almoxarifado.repository.UsuarioRepository;
@@ -29,6 +30,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
     public List<Usuario> consultarTodosUsuarios() {
         return repository.findAll();
@@ -41,30 +45,30 @@ public class UsuarioController {
 
     @PostMapping
     public Usuario cadastrarUsuario(@RequestBody Usuario novoUsuario) {
+        String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
+        novoUsuario.setSenha(senhaCriptografada);
+
         return repository.save(novoUsuario);
     }
 
     // a logica terá que mudar dependendo de como funcionar o sistema de login, porém ja fiz algo q eu considero uma base
     @PatchMapping("/{id}") 
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Usuario atualizarUsuario(@Valid @RequestBody AtualizarUsuarioDTO dto, @PathVariable Long id, @RequestParam Long adminId) throws NotFoundException {
-        verificarAdmin(adminId);
-
         Usuario usuarioExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
 
         if (dto.getSenha() != null) {
             usuarioExistente.setSenha(dto.getSenha());
         }
-        if (dto.getAdm() != null) {
-            usuarioExistente.setAdm(dto.getAdm());
-        }
 
         return repository.save(usuarioExistente);
     }
 
-    private void verificarAdmin(Long adminId) throws NotFoundException {
-        Usuario admin = repository.findById(adminId).orElseThrow(() -> new NotFoundException());
-        if (admin.getAdm() == null || !admin.getAdm()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Apenas administradores podem atualizar usuários.");
-        }
+    @PatchMapping("/promover-adm/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Usuario promoverUsuarioParaAdmin(@PathVariable Long id) throws NotFoundException {
+        Usuario usuarioExistente = repository.findById(id).orElseThrow(() -> new NotFoundException());
+        usuarioExistente.setTipoUsuario(TipoUsuarioEnum.ADMINISTRADOR);
+        return repository.save(usuarioExistente);
     }
 }
