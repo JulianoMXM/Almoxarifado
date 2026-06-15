@@ -1,16 +1,24 @@
 package com.example.Almoxarifado.model;
 
+import java.time.LocalDate;
+
 import com.example.Almoxarifado.common.enums.StatusEmprestimoEnum;
 import com.example.Almoxarifado.common.typeValidations.IsEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,32 +26,43 @@ import lombok.Setter;
 @Table(name = "emprestimos")
 @Getter
 @Setter
-
 public class Emprestimo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@NotBlank(message = "O id do item emprestado é obrigatório")
-    //private Long id;
+    @NotNull(message = "O item emprestado é obrigatório.")
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "itemEmprestado_id", nullable = false)
+    private ItemEmprestavel itemEmprestado;
 
-    @NotBlank(message = "O SIAPE ou RA é obrigatório.")
-    @Size(min = 7, max = 8, message = "O SIAPE ou RA deve conter entre 7 e 8 digitos.")
-    private Integer solicitante;
+    @NotNull(message = "O solicitante é obrigatório.")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "solicitante_id", nullable = false)
+    private Pessoa solicitante;
 
-    //@NotBlank(message = "O identificador do usuário responsável é obrigatório")
-    //private Long id;
+    @NotNull(message = "O funcionário é obrigatório.")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "funcionario_id", nullable = false)
+    private Pessoa funcionario;
 
-    @NotBlank(message = "A data de retirada é obrigatório.")
-    @Pattern(regexp = "\\d{2}\\/\\d{2}\\/\\d{2}", message = "A data deve estar no formato XX/XX/XX")
-    private String dataRetirada;
+    @NotNull(message = "A quantidade emprestada é obrigatória.")
+    @Min(value = 1, message = "A quantidade emprestada deve ser de pelo menos 1 item.")
+    private Integer quantidade;
 
-    @NotBlank(message = "A data limite é obrigatório.")
-    @Pattern(regexp = "\\d{2}\\/\\d{2}\\/\\d{2}", message = "A data deve estar no formato XX/XX/XX")
-    private String dataLimite;
+    @NotNull(message = "A data de retirada é obrigatória.")
+    @PastOrPresent(message = "A data de retirada não pode ser uma data futura.")
+    @JsonFormat(pattern = "dd/MM/yy")
+    private LocalDate dataRetirada;
 
-    @Pattern(regexp = "\\d{2}\\/\\d{2}\\/\\d{2}", message = "A data deve estar no formato XX/XX/XX")
-    private String dataDevolucao;
+    @NotNull(message = "A data limite é obrigatória.")
+    @Future(message = "A data de devolução não pode ser no passado.")
+    @JsonFormat(pattern = "dd/MM/yy")
+    private LocalDate dataLimite;
+
+    @Future(message = "A data de devolução não pode ser no passado.")
+    @JsonFormat(pattern = "dd/MM/yy")
+    private LocalDate dataDevolucao;
 
     @NotBlank(message = "O status é obrigatório.")
     @IsEnum(enumClass = StatusEmprestimoEnum.class, message = "Status inválido. Use ATIVO, ATRASADO ou FINALIZADO.")
