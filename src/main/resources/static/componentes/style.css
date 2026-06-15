@@ -163,6 +163,7 @@ body {
 .consult-form select,
 .update-form input,
 .update-form textarea,
+.update-form select,
 .delete-form input {
     width: 100%;
     padding: 12px 14px;

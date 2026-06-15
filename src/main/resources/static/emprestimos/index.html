@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gerenciamento de Empréstimos</title>
+        <link rel="stylesheet" href="style.css">
+        <script defer src="script.js"></script>
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="brand">Almoxarifado</div>
+            <nav class="page-nav">
+                <a href="../emprestimos/index.html" class="nav-link active">Empréstimos</a>
+                <a href="../componentes/index.html" class="nav-link">Componentes</a>
+                <a href="../chaves/index.html" class="nav-link">Chaves</a>
+            </nav>
+        </header>
+
+        <main class="container">
+            <section class="hero">
+                <h1>Empréstimos</h1>
+                <p>Gerencie o cadastro, consulta, devoluções e cancelamentos de empréstimos de chaves e componentes do Almoxarifado.</p>
+            </section>
+
+            <section class="action-panel">
+                <div class="action-list">
+                    <button class="action-button active" data-action="cadastrar">Cadastrar</button>
+                    <button class="action-button" data-action="consultar">Consultar</button>
+                    <button class="action-button" data-action="atualizar">Atualizar</button>
+                    <button class="action-button" data-action="deletar">Deletar</button>
+                </div>
+
+                <div class="action-content">
+                    
+                    <article class="action-card active" data-action="cadastrar">
+                        <div class="object-panel active" data-object="emprestimos">
+                            <h3>Cadastrar Novo Empréstimo</h3>
+                            <form class="component-form" data-object="emprestimos">
+                                <label>ID do Item Emprestado (Chave ou Componente)</label>
+                                <input type="number" name="itemEmprestado.id" min="1" placeholder="Ex: 5" required>
+
+                                <label for="cpf">CPF do solicitante</label>
+                                <input 
+                                    type="text" 
+                                    id="cpf" 
+                                    name="cpf" 
+                                    placeholder="xxx.xxx.xxx-xx"
+                                    minlength="14"
+                                    maxlength="14"
+                                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                    title="Digite o CPF no formato: 000.000.000-00"
+                                    required
+                                >
+
+                                <label>Quantidade Emprestada</label>
+                                <input type="number" name="quantidade" min="1" placeholder="Mínimo 1" required>
+
+                                <label>Data de Retirada</label>
+                                <input class="Date" type="text" name="dataRetirada" placeholder="Formato: DD/MM/AAAA" minlenght="10" maxlength="10" required>
+
+                                <label>Data Limite para Devolução</label>
+                                <input class="Date" type="text" name="dataRetirada" placeholder="Formato: DD/MM/AAAA" minlenght="10" maxlength="10" required>
+
+                                <button type="submit">Cadastrar Empréstimo</button>
+                            </form>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="consultar">
+                        <div class="object-panel active" data-object="emprestimos">
+                            <h3>Consultar Histórico de Empréstimos</h3>
+                            <p>Informe o ID de um empréstimo específico ou deixe em branco para listar todos.</p>
+                            <form class="consult-form" data-object="emprestimos">
+                                <label>ID do Empréstimo (Opcional)</label>
+                                <input type="number" name="id" min="1" placeholder="Ex: 2">
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="consulta-result">
+                            <h4>Resultados</h4>
+                            <div id="consultaMensagem" class="info-box">Use os filtros acima para consultar as movimentações.</div>
+                            <ul id="consultaResultado" class="result-list"></ul>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="atualizar">
+                        <div class="object-panel active" data-object="emprestimos">
+                            <h3>Atualizar Status / Registrar Devolução</h3>
+                            <p>Informe o ID do empréstimo para atualizar a situação ou registrar a data efetiva de entrega.</p>
+                            <form class="update-form" data-object="emprestimos">
+                                <label>ID do Empréstimo</label>
+                                <input type="number" name="id" min="1" placeholder="ID do registro" required>
+
+                                <label>Data de Devolução Efetiva (Opcional)</label>
+                                <input type="text" name="dataDevolucao" placeholder="Formato: DD/MM/AA">
+
+                                <label>Alterar Status (Opcional)</label>
+                                <select name="status">
+                                    <option value="">Manter atual</option>
+                                    <option value="ATIVO">ATIVO</option>
+                                    <option value="ATRASADO">ATRASADO</option>
+                                    <option value="FINALIZADO">FINALIZADO</option>
+                                </select>
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="deletar">
+                        <h3>Remover Registro de Empréstimo</h3>
+                        <p>Atenção! Esta ação removerá permanentemente o histórico do empréstimo do banco de dados.</p>
+                        <form class="delete-form" data-object="emprestimos">
+                            <label>ID do Empréstimo</label>
+                            <input type="number" name="id" min="1" placeholder="Digite o ID" required>
+                            <button type="submit">Deletar Registro</button>
+                        </form>
+                    </article>
+
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
