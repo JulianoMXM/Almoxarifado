@@ -2,7 +2,6 @@ package com.example.Almoxarifado.security;
 
 import com.example.Almoxarifado.model.Usuario;
 import com.example.Almoxarifado.repository.UsuarioRepository;
-import com.example.Almoxarifado.security.AuthDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthDTO data) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
@@ -38,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity cadastrar(@RequestBody @Valid CadastroDTO data) {
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastroDTO data) {
         if(this.usuarioRepository.findByEmail(data.email()) != null) {
             return ResponseEntity.badRequest().body("Email já cadastrado");
         }
