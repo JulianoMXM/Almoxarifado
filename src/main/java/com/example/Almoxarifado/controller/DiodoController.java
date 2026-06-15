@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Almoxarifado.common.enums.TipoDiodoEnum;
 import com.example.Almoxarifado.dto.AtualizarDiodoDTO;
 import com.example.Almoxarifado.model.Diodo;
 import com.example.Almoxarifado.repository.DiodoRepository;
