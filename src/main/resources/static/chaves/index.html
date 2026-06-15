@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gerenciamento de Chaves</title>
+        <link rel="stylesheet" href="style.css">
+        <script defer src="script.js"></script>
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="brand">Almoxarifado</div>
+            <nav class="page-nav">
+                <a href="../componentes/index.html" class="nav-link">Componentes</a>
+                <a href="../chaves/index.html" class="nav-link active">Chaves</a>
+            </nav>
+        </header>
+
+        <main class="container">
+            <section class="hero">
+                <h1>Controle de Chaves</h1>
+                <p>Gerencie o cadastro, consulta, atualização de status e remoção das chaves das salas e laboratórios.</p>
+            </section>
+
+            <section class="action-panel">
+                <div class="action-list">
+                    <button class="action-button active" data-action="cadastrar">Cadastrar</button>
+                    <button class="action-button" data-action="consultar">Consultar</button>
+                    <button class="action-button" data-action="atualizar">Atualizar</button>
+                    <button class="action-button" data-action="deletar">Deletar</button>
+                </div>
+
+                <div class="action-content">
+                    
+                    <article class="action-card active" data-action="cadastrar">
+                        <div class="object-panel active" data-object="chaves">
+                            <h3>Cadastrar Nova Chave</h3>
+                            <form class="component-form" data-object="chaves">
+                                <label>Identificador da Sala</label>
+                                <input type="text" name="sala" placeholder="Ex: Sala 102, Lab de Eletrônica" required>
+
+                                <label>Status Inicial</label>
+                                <select name="status" required>
+                                    <option value="">Selecione o status</option>
+                                    <option value="DISPONÍVEL">DISPONÍVEL</option>
+                                    <option value="EMPRESTADA">EMPRESTADA</option>
+                                    <option value="DESATIVADA">DESATIVADA</option>
+                                </select>
+
+                                <button type="submit">Cadastrar Chave</button>
+                            </form>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="consultar">
+                        <div class="object-panel active" data-object="chaves">
+                            <h3>Consultar Chaves</h3>
+                            <p>Deixe os campos em branco para listar todas ou filtre por uma sala específica.</p>
+                            <form class="consult-form" data-object="chaves">
+                                <label>Filtrar por Sala</label>
+                                <input type="text" name="sala" placeholder="Nome da sala (opcional)">
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="consulta-result">
+                            <h4>Resultados</h4>
+                            <div id="consultaMensagem" class="info-box">Use o filtro acima para consultar as chaves.</div>
+                            <ul id="consultaResultado" class="result-list"></ul>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="atualizar">
+                        <div class="object-panel active" data-object="chaves">
+                            <h3>Atualizar Status da Chave</h3>
+                            <p>Informe o ID da chave e selecione as novas informações que deseja salvar.</p>
+                            <form class="update-form" data-object="chaves">
+                                <label>ID do Registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID da chave" required>
+
+                                <label>Alterar Nome da Sala (Opcional)</label>
+                                <input type="text" name="sala" placeholder="Novo nome da sala">
+
+                                <label>Alterar Status (Opcional)</label>
+                                <select name="status">
+                                    <option value="">Manter atual</option>
+                                    <option value="DISPONÍVEL">DISPONÍVEL</option>
+                                    <option value="EMPRESTADA">EMPRESTADA</option>
+                                    <option value="DESATIVADA">DESATIVADA</option>
+                                </select>
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="deletar">
+                        <h3>Deletar Chave</h3>
+                        <p>Atenção! Esta ação removerá permanentemente o registro da chave do sistema.</p>
+                        <form class="delete-form" data-object="chaves">
+                            <label>ID da Chave</label>
+                            <input type="number" name="id" min="1" placeholder="Digite o ID" required>
+                            <button type="submit">Deletar</button>
+                        </form>
+                    </article>
+
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

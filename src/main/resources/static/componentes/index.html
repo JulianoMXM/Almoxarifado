@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Cadastro de Componentes</title>
+        <link rel="stylesheet" href="style.css">
+        <script defer src="script.js"></script>
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="brand">Almoxarifado</div>
+            <nav class="page-nav">
+                <a href="../componentes/index.html" class="nav-link active">Componentes</a>
+                <a href="../chaves/index.html" class="nav-link">Chaves</a>
+            </nav>
+        </header>
+
+        <main class="container">
+            <section class="hero">
+                <h1>Controle de Componentes</h1>
+                <p>Gerencia o estoque de componentes, permitindo cadastrar os diferentes 
+                    tipos de componentes permitidos de serem emprestados.</p>
+            </section>
+
+            <section class="selector-panel">
+                <div class="selector-title">
+                    <h2>Tipos de componente</h2>
+                </div>
+                <div class="object-tabs">
+                    <button class="object-button active" data-object="componente">Componente</button>
+                    <button class="object-button" data-object="capacitor">Capacitor</button>
+                    <button class="object-button" data-object="resistor">Resistor</button>
+                    <button class="object-button" data-object="diodo">Diodo</button>
+                    <button class="object-button" data-object="indutor">Indutor</button>
+                    <button class="object-button" data-object="protoboard">Protoboard</button>
+                </div>
+            </section>
+
+            <section class="action-panel">
+                <div class="action-list">
+                    <button class="action-button active" data-action="cadastrar">Cadastrar</button>
+                    <button class="action-button" data-action="consultar">Consultar</button>
+                    <button class="action-button" data-action="atualizar">Atualizar</button>
+                    <button class="action-button" data-action="deletar">Deletar</button>
+                </div>
+
+                <div class="action-content">
+                    <article class="action-card active" data-action="cadastrar">
+                        <div class="object-panel" data-object="capacitor">
+                            <h3>Cadastrar Capacitor</h3>
+                            <form class="component-form" data-object="capacitor">
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível" required>
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do capacitor" required>
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3" required></textarea>
+
+                                <label>Capacitância</label>
+                                <input type="number" name="capacitancia" min="0" max="999.99" step="0.01" placeholder="Farads" required>
+
+                                <label>Tensão máxima</label>
+                                <input type="number" name="tensaoMaxima" min="0" step="0.1" placeholder="Volts" required>
+
+                                <label>Tolerância</label>
+                                <input type="number" name="tolerancia" min="0" max="100" step="0.01" placeholder="%" required>
+
+                                <label>Unidade de medida</label>
+                                <select name="unidadeDeMedida" required>
+                                    <option value="">Selecione</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="resistor">
+                            <h3>Cadastrar Resistor</h3>
+                            <form class="component-form" data-object="resistor">
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível" required>
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do resistor" required>
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3" required></textarea>
+
+                                <label>Resistência</label>
+                                <input type="number" name="resistencia" min="0" step="0.01" placeholder="Ohms" required>
+
+                                <label>Potência máxima</label>
+                                <input type="number" name="potenciaMaxima" min="0" step="0.1" placeholder="Watts" required>
+
+                                <label>Tolerância</label>
+                                <input type="number" name="tolerancia" min="0" max="100" step="0.01" placeholder="%" required>
+
+                                <label>Unidade de medida</label>
+                                <select name="unidadeDeMedida" required>
+                                    <option value="">Selecione</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="diodo">
+                            <h3>Cadastrar Diodo</h3>
+                            <form class="component-form" data-object="diodo">
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível" required>
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do diodo" required>
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3" required></textarea>
+
+                                <label>Tensão reversa máxima</label>
+                                <input type="number" name="tensaoReversaMaxima" min="0" step="0.1" placeholder="Volts" required>
+
+                                <label>Corrente direta máxima</label>
+                                <input type="number" name="correnteDiretaMaxima" min="0" step="0.01" placeholder="Amperes" required>
+
+                                <label>Queda de tensão</label>
+                                <input type="number" name="quedaDeTensao" min="0" step="0.01" placeholder="Volts" required>
+
+                                <label>Tipo de diodo</label>
+                                <select name="tipoDiodo" required>
+                                    <option value="">Selecione</option>
+                                    <option value="RETIFICADOR">RETIFICADOR</option>
+                                    <option value="ZENER">ZENER</option>
+                                    <option value="LED">LED</option>
+                                    <option value="FOTODIODO">FOTODIODO</option>
+                                    <option value="SCHOTTKY">SCHOTTKY</option>
+                                    <option value="VARICAP">VARICAP</option>
+                                </select>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="indutor">
+                            <h3>Cadastrar Indutor</h3>
+                            <form class="component-form" data-object="indutor">
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível" required>
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do indutor" required>
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3" required></textarea>
+
+                                <label>Indutância</label>
+                                <input type="number" name="indutancia" min="0" step="0.01" placeholder="Henry" required>
+
+                                <label>Corrente máxima</label>
+                                <input type="number" name="correnteMaxima" min="0" step="0.01" placeholder="Amperes" required>
+
+                                <label>Tolerância</label>
+                                <input type="number" name="tolerancia" min="0" max="100" step="0.01" placeholder="%" required>
+
+                                <label>Unidade de medida</label>
+                                <select name="unidadeDeMedida" required>
+                                    <option value="">Selecione</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="protoboard">
+                            <h3>Cadastrar Protoboard</h3>
+                            <form class="component-form" data-object="protoboard">
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível" required>
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo da protoboard" required>
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3" required></textarea>
+
+                                <label>Potência máxima</label>
+                                <input type="number" name="potenciaMaxima" min="0" step="0.1" placeholder="Watts" required>
+
+                                <label>Corrente máxima</label>
+                                <input type="number" name="correnteMaxima" min="0" step="0.01" placeholder="Amperes" required>
+
+                                <label>Tensão máxima</label>
+                                <input type="number" name="tensaoMaxima" min="0" step="0.1" placeholder="Volts" required>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="consultar">
+                        <div class="object-panel active" data-object="componente">
+                            <h3>Consultar Componentes</h3>
+                            <p>Use o filtro por ID para buscar um componente ou veja todos.</p>
+                            <form class="consult-form" data-object="componente">
+                                <label>Consultar por ID</label>
+                                <input type="number" name="id" min="1" placeholder="ID do componente">
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="capacitor">
+                            <h3>Consultar Capacitores</h3>
+                            <p>Filtre por capacitância e unidade.</p>
+                            <form class="consult-form" data-object="capacitor">
+                                <label>Capacitância mínima</label>
+                                <input type="number" name="min" min="0" max="999.99" step="0.01" placeholder="Mínimo">
+
+                                <label>Capacitância máxima</label>
+                                <input type="number" name="max" min="0" max="999.99" step="0.01" placeholder="Máximo">
+
+                                <label>Unidade</label>
+                                <select name="unidade">
+                                    <option value="">Todas</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="resistor">
+                            <h3>Consultar Resistores</h3>
+                            <p>Filtre por resistência e unidade.</p>
+                            <form class="consult-form" data-object="resistor">
+                                <label>Resistência mínima</label>
+                                <input type="number" name="min" min="0" max="999.99" step="0.01" placeholder="Mínimo">
+
+                                <label>Resistência máxima</label>
+                                <input type="number" name="max" min="0" max="999.99" step="0.01" placeholder="Máximo">
+
+                                <label>Unidade</label>
+                                <select name="unidade">
+                                    <option value="">Todas</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="diodo">
+                            <h3>Consultar Diodos</h3>
+                            <p>Filtre por tipo de diodo.</p>
+                            <form class="consult-form" data-object="diodo">
+                                <label>Tipo de diodo</label>
+                                <select name="tipo">
+                                    <option value="">Todos</option>
+                                    <option value="RETIFICADOR">RETIFICADOR</option>
+                                    <option value="ZENER">ZENER</option>
+                                    <option value="LED">LED</option>
+                                    <option value="FOTODIODO">FOTODIODO</option>
+                                    <option value="SCHOTTKY">SCHOTTKY</option>
+                                    <option value="VARICAP">VARICAP</option>
+                                </select>
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="indutor">
+                            <h3>Consultar Indutores</h3>
+                            <p>Filtre por indutância e unidade.</p>
+                            <form class="consult-form" data-object="indutor">
+                                <label>Indutância mínima</label>
+                                <input type="number" name="min" min="0" max="999.99" step="0.01" placeholder="Mínimo">
+
+                                <label>Indutância máxima</label>
+                                <input type="number" name="max" min="0" max="999.99" step="0.01" placeholder="Máximo">
+
+                                <label>Unidade</label>
+                                <select name="unidade">
+                                    <option value="">Todas</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="protoboard">
+                            <h3>Consultar Protoboards</h3>
+                            <p>Não existem filtros adicionais disponíveis. Consulte todos.</p>
+                            <form class="consult-form" data-object="protoboard">
+                                <button type="submit">Consultar todos</button>
+                            </form>
+                        </div>
+
+                        <div class="consulta-result">
+                            <h4>Resultados</h4>
+                            <div id="consultaMensagem" class="info-box">Use os filtros acima para consultar os registros.</div>
+                            <ul id="consultaResultado" class="result-list"></ul>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="atualizar">
+                        <div class="object-panel active" data-object="componente">
+                            <h3>Atualizar Componente</h3>
+                            <p>Atualização não disponível para Componente. Use apenas Consulta e Deletar.</p>
+                        </div>
+
+                        <div class="object-panel" data-object="capacitor">
+                            <h3>Atualizar Capacitor</h3>
+                            <p>Informe o ID e os campos que deseja alterar. Quaisquer campos podem ficar em branco.</p>
+                            <form class="update-form" data-object="capacitor">
+                                <label>ID do registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID" required>
+
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível">
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do capacitor">
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3"></textarea>
+
+                                <label>Capacitância</label>
+                                <input type="number" name="capacitancia" min="0" step="0.01" placeholder="Farads">
+
+                                <label>Tensão máxima</label>
+                                <input type="number" name="tensaoMaxima" min="0" step="0.1" placeholder="Volts">
+
+                                <label>Tolerância</label>
+                                <input type="number" name="tolerancia" min="0" max="100" step="0.01" placeholder="%">
+
+                                <label>Unidade de medida</label>
+                                <select name="unidadeDeMedida">
+                                    <option value="">Manter atual</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="resistor">
+                            <h3>Atualizar Resistor</h3>
+                            <p>Informe o ID e os campos que deseja alterar. Quaisquer campos podem ficar em branco.</p>
+                            <form class="update-form" data-object="resistor">
+                                <label>ID do registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID" required>
+
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível">
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do resistor">
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3"></textarea>
+
+                                <label>Resistência</label>
+                                <input type="number" name="resistencia" min="0" step="0.01" placeholder="Ohms">
+
+                                <label>Potência máxima</label>
+                                <input type="number" name="potenciaMaxima" min="0" step="0.1" placeholder="Watts">
+
+                                <label>Tolerância</label>
+                                <input type="number" name="tolerancia" min="0" max="100" step="0.01" placeholder="%">
+
+                                <label>Unidade de medida</label>
+                                <select name="unidadeDeMedida">
+                                    <option value="">Manter atual</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="diodo">
+                            <h3>Atualizar Diodo</h3>
+                            <p>Informe o ID e os campos que deseja alterar. Quaisquer campos podem ficar em branco.</p>
+                            <form class="update-form" data-object="diodo">
+                                <label>ID do registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID" required>
+
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível">
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do diodo">
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3"></textarea>
+
+                                <label>Tensão reversa máxima</label>
+                                <input type="number" name="tensaoReversaMaxima" min="0" step="0.1" placeholder="Volts">
+
+                                <label>Corrente direta máxima</label>
+                                <input type="number" name="correnteDiretaMaxima" min="0" step="0.01" placeholder="Amperes">
+
+                                <label>Queda de tensão</label>
+                                <input type="number" name="quedaDeTensao" min="0" step="0.01" placeholder="Volts">
+
+                                <label>Tipo de diodo</label>
+                                <select name="tipoDiodo">
+                                    <option value="">Manter atual</option>
+                                    <option value="RETIFICADOR">RETIFICADOR</option>
+                                    <option value="ZENER">ZENER</option>
+                                    <option value="LED">LED</option>
+                                    <option value="FOTODIODO">FOTODIODO</option>
+                                    <option value="SCHOTTKY">SCHOTTKY</option>
+                                    <option value="VARICAP">VARICAP</option>
+                                </select>
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="indutor">
+                            <h3>Atualizar Indutor</h3>
+                            <p>Informe o ID e os campos que deseja alterar. Quaisquer campos podem ficar em branco.</p>
+                            <form class="update-form" data-object="indutor">
+                                <label>ID do registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID" required>
+
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível">
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo do indutor">
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3"></textarea>
+
+                                <label>Indutância</label>
+                                <input type="number" name="indutancia" min="0" step="0.01" placeholder="Henry">
+
+                                <label>Corrente máxima</label>
+                                <input type="number" name="correnteMaxima" min="0" step="0.01" placeholder="Amperes">
+
+                                <label>Tolerância</label>
+                                <input type="number" name="tolerancia" min="0" max="100" step="0.01" placeholder="%">
+
+                                <label>Unidade de medida</label>
+                                <select name="unidadeDeMedida">
+                                    <option value="">Manter atual</option>
+                                    <option value="p">p</option>
+                                    <option value="u">u</option>
+                                    <option value="m">m</option>
+                                    <option value="padrao">padrao</option>
+                                    <option value="k">k</option>
+                                    <option value="M">M</option>
+                                </select>
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="protoboard">
+                            <h3>Atualizar Protoboard</h3>
+                            <p>Informe o ID e os campos que deseja alterar. Quaisquer campos podem ficar em branco.</p>
+                            <form class="update-form" data-object="protoboard">
+                                <label>ID do registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID" required>
+
+                                <label>Quantidade disponível</label>
+                                <input type="number" name="qntDisponivel" min="0" placeholder="Quantidade disponível">
+
+                                <label>Modelo</label>
+                                <input type="text" name="modelo" placeholder="Modelo da protoboard">
+
+                                <label>Descrição</label>
+                                <textarea name="descricao" placeholder="Descrição" rows="3"></textarea>
+
+                                <label>Potência máxima</label>
+                                <input type="number" name="potenciaMaxima" min="0" step="0.1" placeholder="Watts">
+
+                                <label>Corrente máxima</label>
+                                <input type="number" name="correnteMaxima" min="0" step="0.01" placeholder="Amperes">
+
+                                <label>Tensão máxima</label>
+                                <input type="number" name="tensaoMaxima" min="0" step="0.1" placeholder="Volts">
+
+                                <button type="submit">Enviar atualização</button>
+                            </form>
+                        </div>
+                    </article>
+
+                    <article class="action-card" data-action="deletar">
+                        <h3>Deletar registro</h3>
+                        <p>Informe o ID do registro para remoção.</p>
+                        <form class="delete-form">
+                            <label>ID do registro</label>
+                            <input type="number" name="id" min="1" placeholder="ID" required>
+                            <button type="submit">Deletar</button>
+                        </form>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
