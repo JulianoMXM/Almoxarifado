@@ -1,19 +1,26 @@
 package com.example.Almoxarifado.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfigs {
+    @Autowired
+    SecurityFilter securityFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -23,12 +30,19 @@ public class SecurityConfigs {
                     // Permitir acesso ao site (HTML) e recursos estáticos
                     req.requestMatchers("/", "/index.html", "/style.css", "/script.js").permitAll();
                     // Permitir login
-                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/usuario").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                    // Somente administradores podem cadastrar novos usuários
+                    req.requestMatchers(HttpMethod.POST, "/auth/cadastrar").hasRole("ADMINISTRADOR");
                     // Resto das requisições precisa autenticação
                     req.anyRequest().authenticated();
                 })
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean

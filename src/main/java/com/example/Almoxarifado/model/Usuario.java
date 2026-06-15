@@ -24,6 +24,13 @@ public class Usuario extends Pessoa implements UserDetails {
 
     private TipoUsuarioEnum tipoUsuario;
 
+    public Usuario(String email, String senhaCriptografada, String nome, TipoUsuarioEnum tipoUsuario) {
+        this.setEmail(email);
+        this.senha = senhaCriptografada;
+        this.setNome(nome);
+        this.tipoUsuario = tipoUsuario;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.tipoUsuario == TipoUsuarioEnum.ADMINISTRADOR) {
