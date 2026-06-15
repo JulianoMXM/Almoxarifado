@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Almoxarifado - Login</title>
+        <link rel="stylesheet" href="style.css">
+        <script defer src="login.js"></script>
+    </head>
+    <body>
+        <!-- Mantém a identidade visual do topo, adaptada para tela de login -->
+        <header class="topbar">
+            <div class="brand">Almoxarifado</div>
+        </header>
+
+        <main class="container">
+            <!-- Card de login utilizando o estilo estrutural do .hero/.action-panel -->
+            <section class="login-card">
+                <div class="login-header">
+                    <h2>Acessar o Sistema</h2>
+                    <p>Insira suas credenciais para gerenciar o estoque de componentes.</p>
+                </div>
+
+                <!-- Formulário com a mesma estrutura de classes e inputs da UI padrão -->
+                <form id="loginForm" class="component-form">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="seu.email@empresa.com" required>
+
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+
+                    <div class="form-actions">
+                        <button type="submit">Entrar</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
