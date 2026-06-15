@@ -13,11 +13,7 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-public abstract class Componente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public abstract class Componente extends ItemEmprestavel{
     @NotNull(message = "A quantidade de itens é obrigatória.")
     @PositiveOrZero(message = "A quantidade de itens não pode ser negativa")
     @Max(value = 1000000, message = "A quantidade de itens é muito alta.")

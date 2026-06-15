@@ -12,11 +12,7 @@ import lombok.Setter;
 @Table(name = "chaves")
 @Getter
 @Setter
-public class Chave {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Chave extends ItemEmprestavel{
     @NotBlank(message = "O identificador da sala é obrigatório.")
     private String sala;
 
