@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class AtualizarDocenteDTO extends AtualizarPessoaDTO {
     @Size(min = 7, max = 8, message = "O SIAPE deve conter entre 7 e 8 digitos.")
-    private Integer siape;
+    private String siape;
 }

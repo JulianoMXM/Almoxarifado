@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class AtualizarDiscenteDTO extends AtualizarPessoaDTO {
     @Size(min = 8, max = 8, message = "O RA deve conter 8 digitos.")
-    private Integer ra;
+    private String ra;
 }

@@ -13,7 +13,7 @@
                 <a href="../emprestimos/index.html" class="nav-link active">Empréstimos</a>
                 <a href="../componentes/index.html" class="nav-link">Componentes</a>
                 <a href="../chaves/index.html" class="nav-link">Chaves</a>
-                <a href="../cadastro/index.html" class="nav-link active">Pessoas</a>
+                <a href="../cadastro/index.html" class="nav-link">Pessoas</a>
             </nav>
         </header>
 
@@ -38,13 +38,13 @@
                             <h3>Cadastrar Novo Empréstimo</h3>
                             <form class="component-form" data-object="emprestimos">
                                 <label>ID do Item Emprestado (Chave ou Componente)</label>
-                                <input type="number" name="itemEmprestado.id" min="1" placeholder="Ex: 5" required>
+                                <input type="number" name="idItem" min="1" placeholder="Ex: 5" required>
 
                                 <label for="cpf">CPF do solicitante</label>
                                 <input 
                                     type="text" 
                                     id="cpf" 
-                                    name="cpf" 
+                                    name="cpfSolicitante" 
                                     placeholder="xxx.xxx.xxx-xx"
                                     minlength="14"
                                     maxlength="14"
@@ -57,10 +57,10 @@
                                 <input type="number" name="quantidade" min="1" placeholder="Mínimo 1" required>
 
                                 <label>Data de Retirada</label>
-                                <input class="Date" type="text" name="dataRetirada" placeholder="Formato: DD/MM/AAAA" minlenght="10" maxlength="10" required>
+                                <input class="Date" type="text" name="dataRetirada" placeholder="Formato: DD/MM/AAAA" minlength="10" maxlength="10" required>
 
                                 <label>Data Limite para Devolução</label>
-                                <input class="Date" type="text" name="dataRetirada" placeholder="Formato: DD/MM/AAAA" minlenght="10" maxlength="10" required>
+                                <input class="Date" type="text" name="dataLimite" placeholder="Formato: DD/MM/AAAA" minlength="10" maxlength="10" required>
 
                                 <button type="submit">Cadastrar Empréstimo</button>
                             </form>
@@ -74,6 +74,12 @@
                             <form class="consult-form" data-object="emprestimos">
                                 <label>ID do Empréstimo (Opcional)</label>
                                 <input type="number" name="id" min="1" placeholder="Ex: 2">
+                                <label>Status</label>
+                                <select name="status">
+                                    <option value="">Todos</option>
+                                    <option value="ATIVO">ATIVO</option>
+                                    <option value="ATRASADO">ATRASADO</option>
+                                </select>
                                 <button type="submit">Consultar</button>
                             </form>
                         </div>
@@ -94,7 +100,7 @@
                                 <input type="number" name="id" min="1" placeholder="ID do registro" required>
 
                                 <label>Data de Devolução Efetiva (Opcional)</label>
-                                <input type="text" name="dataDevolucao" placeholder="Formato: DD/MM/AA">
+                                <input type="text" name="dataDevolucao" placeholder="Formato: DD/MM/AAAA" pattern="\d{2}/\d{2}/\d{4}">
 
                                 <label>Alterar Status (Opcional)</label>
                                 <select name="status">

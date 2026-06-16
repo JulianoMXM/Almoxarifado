@@ -1,5 +1,6 @@
 const actionButtons = document.querySelectorAll('.action-button');
 const actionCards = document.querySelectorAll('.action-card');
+const token = localStorage.getItem('token')
 const API_BASE_URL = 'http://localhost:8080';
 
 // Configurações iniciais travadas para o escopo de chaves
@@ -42,7 +43,11 @@ async function consultarChave(event) {
     messageBox.textContent = 'Carregando...';
 
     try {
-        const resposta = await fetch(url);
+        const resposta = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Envia o token para descriptografia no Spring
+            }
+        });
         if (!resposta.ok) {
             throw new Error(`Erro ${resposta.status}`);
         }
@@ -117,7 +122,10 @@ function cadastrarObjeto(event) {
 
     fetch(url, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(body)
     })
     .then(res => {
@@ -157,7 +165,10 @@ function atualizarObjeto(event) {
 
     fetch(url, {
         method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(body)
     })
     .then(res => {
@@ -183,7 +194,12 @@ function deletarObjeto(event) {
 
     const url = `${API_BASE_URL}/${selectedObject}/${id}`;
 
-    fetch(url, { method: 'DELETE' })
+    fetch(url, { 
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
     .then(res => {
         if (!res.ok) throw new Error(`Erro ${res.status}`);
         return res.text();

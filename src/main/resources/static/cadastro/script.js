@@ -46,13 +46,14 @@ function inicializarFormularios() {
             const endpoint = form.dataset.endpoint;
             const data = new FormData(form);
             const payload = Object.fromEntries(data.entries());
+            const token = localStorage.getItem('token')
 
             // Envia a requisição dinamicamente para /usuarios, /alunos ou /professores
-            alert(`${API_BASE_URL}/${endpoint}`)
             fetch(`${API_BASE_URL}/${endpoint}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(payload)
             })
@@ -90,9 +91,10 @@ function inicializarMascaras() {
     });
 }
 
-const inputCpf = document.getElementById('cpf');
-if (inputCpf) {
-    inputCpf.addEventListener('input', (e) => {
+const inputsCpf = document.querySelectorAll('.Cpf'); 
+
+inputsCpf.forEach(input => {
+    input.addEventListener('input', (e) => {
         let value = e.target.value;
         
         // Remove tudo o que não for número
@@ -105,4 +107,4 @@ if (inputCpf) {
         
         e.target.value = value;
     });
-}
+});

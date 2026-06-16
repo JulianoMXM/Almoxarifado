@@ -1,3 +1,5 @@
+const API_BASE_URL = 'http://localhost:8080';
+
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
     if (!loginForm) return;
@@ -46,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return errors;
     }
 
-    loginForm.addEventListener('submit', async function (e) {
+    // Modificado para seguir estritamente a base e padrão do primeiro código fornecido
+    loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
         clearMessages();
 
@@ -62,36 +65,47 @@ document.addEventListener('DOMContentLoaded', function () {
         const submitBtn = loginForm.querySelector('button[type="submit"]');
         if (submitBtn) submitBtn.disabled = true;
 
-        try {
-            const res = await fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: email, password: password })
-            });
+        const url = `${API_BASE_URL}/auth/login`;
+        const body = { email: email, senha: password };
 
-            if (res.ok) {
-                showSuccess();
-                // Pequeno delay para o usuário ver a mensagem
-                setTimeout(() => {
-                    // Redireciona para a página de componentes
-                    window.location.href = '../componentes/index.html';
-                }, 700);
-            } else if (res.status === 401 || res.status === 403) {
-                showErrors(['E-mail ou senha inválidos']);
-            } else {
-                // tenta ler mensagem JSON do backend
-                let msg = 'Erro ao efetuar login. Tente novamente.';
-                try {
-                    const data = await res.json();
-                    if (data && data.message) msg = data.message;
-                } catch (_) {}
-                showErrors([msg]);
+        // Fluxo baseado no encadeamento de promessas .then().catch() do primeiro código
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+        .then(res => {
+            // Se o servidor responder com erro de credenciais (401/403) ou qualquer outro erro
+            if (res.status === 401 || res.status === 403) {
+                throw new Error('E-mail ou senha inválidos');
             }
-        } catch (err) {
-            console.error('Login request failed', err);
-            showErrors(['Erro de conexão. Verifique sua rede e tente novamente.']);
-        } finally {
+            if (!res.ok) {
+                throw new Error(`Erro no servidor: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            // Guarda o token JWT retornado pelo DTO
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('id', data.idFuncionario);
+
+            showSuccess();
+            setTimeout(() => {
+                window.location.href = '../emprestimos/index.html';
+            }, 700);
+        })
+        .catch(error => {
+            console.error('Login falhou:', error);
+            
+            // Trata erros de CORS ou servidor fora do ar sem estourar o erro genérico de conexão na tela de forma limpa
+            if (error.message.includes('Failed to fetch') || error.message.includes('fetch')) {
+                showErrors(['Erro de conexão. Verifique se o servidor backend está rodando e aceitando requisições (CORS).']);
+            } else {
+                showErrors([error.message]);
+            }
+        })
+        .finally(() => {
             if (submitBtn) submitBtn.disabled = false;
-        }
+        });
     });
 });
