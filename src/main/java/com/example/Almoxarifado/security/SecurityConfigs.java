@@ -32,7 +32,7 @@ public class SecurityConfigs {
                     // Permitir login
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     // Somente administradores podem cadastrar novos usuários
-                    req.requestMatchers(HttpMethod.POST, "/auth/cadastrar").hasRole("ADMINISTRADOR");
+                    req.requestMatchers(HttpMethod.POST, "/auth/cadastrar").permitAll(); // Altere para .hasRole("ADMIN") se quiser restringir a criação de usuários apenas para administradores
                     // Resto das requisições precisa autenticação
                     req.anyRequest().authenticated();
                 })
