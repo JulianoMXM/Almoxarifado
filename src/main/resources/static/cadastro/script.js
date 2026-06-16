@@ -74,8 +74,8 @@ async function consultarObjeto(event) {
     let url = `${API_BASE_URL}/pessoa`;
     if (valor) {
         if (tipoBusca === 'id') url += `/${valor}`;
-        if (tipoBusca === 'cpf') url += `/pessoa/buscaCpf/${valor}`;
-        if (tipoBusca === 'email') url += `/pessoa/buscaEmail/${valor}`;
+        if (tipoBusca === 'cpf') url += `/buscaCpf/${valor}`;
+        if (tipoBusca === 'email') url += `/buscaEmail/${valor}`;
     }
 
     resultList.innerHTML = '';
@@ -274,4 +274,22 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.component-form').forEach(form => form.addEventListener('submit', cadastrarObjeto));
     document.querySelectorAll('.update-form').forEach(form => form.addEventListener('submit', atualizarObjeto));
     document.querySelectorAll('.delete-form').forEach(form => form.addEventListener('submit', deletarObjeto));
+});
+
+const inputsCpf = document.querySelectorAll('.Cpf'); 
+
+inputsCpf.forEach(cpfInput => {
+    cpfInput.addEventListener('input', (e) => {
+        let value = e.target.value;
+            
+            // Remove tudo o que não for número
+            value = value.replace(/\D/g, "");
+            
+        // Aplica a máscara dinamicamente
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        
+        e.target.value = value;
+    });
 });
