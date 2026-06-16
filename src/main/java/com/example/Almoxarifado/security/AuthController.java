@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,8 +44,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email já cadastrado");
         }
 
-        String senhaCriptografada = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode(data.senha());
-        Usuario novoUsuario = new Usuario(data.email(), senhaCriptografada, data.nome(), data.tipoUsuario());
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(data.senha());
+        Usuario novoUsuario = new Usuario(data.email(), senhaCriptografada, data.nome(), data.tipoUsuario(), data.cpf());
 
         this.usuarioRepository.save(novoUsuario);
         return ResponseEntity.ok().build();

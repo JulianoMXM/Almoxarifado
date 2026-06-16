@@ -24,11 +24,16 @@ public class Usuario extends Pessoa implements UserDetails {
 
     private TipoUsuarioEnum tipoUsuario;
 
-    public Usuario(String email, String senhaCriptografada, String nome, TipoUsuarioEnum tipoUsuario) {
+    public Usuario(String email, String senhaCriptografada, String nome, TipoUsuarioEnum tipoUsuario, String cpf) {
         this.setEmail(email);
         this.senha = senhaCriptografada;
         this.setNome(nome);
         this.tipoUsuario = tipoUsuario;
+        this.setCpf(cpf);
+    }
+
+    public Usuario() {
+        // Construtor padrão necessário para JPA
     }
 
     @Override
