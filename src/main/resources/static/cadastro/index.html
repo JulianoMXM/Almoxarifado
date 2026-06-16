@@ -2,8 +2,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Almoxarifado - Cadastro de Usuários</title>
+        <title>Gerenciamento de Pessoas</title>
         <link rel="stylesheet" href="style.css">
         <script defer src="script.js"></script>
     </head>
@@ -20,112 +19,197 @@
 
         <main class="container">
             <section class="hero">
-                <h1>Controle de Acesso</h1>
-                <p>Gerencie as contas do sistema permitindo o autocadastro de novos funcionários, discentes ou docentes.</p>
+                <h1>Gerenciamento de Pessoas</h1>
+                <p>Gerencie o cadastro, consulta, atualização de senhas e remoção de usuários do sistema de controle.</p>
             </section>
 
             <section class="selector-panel">
                 <div class="selector-title">
-                    <h2>Tipo de perfil</h2>
+                    <h2>Tipos de Perfil</h2>
                 </div>
-                <div class="action-list">
-                    <button class="action-button active" data-action="usuario">Funcionário</button>
-                    <button class="action-button" data-action="aluno">Discente</button>
-                    <button class="action-button" data-action="professor">Docente</button>
+                <div class="object-tabs">
+                    <button class="object-button active" data-object="pessoa">Geral (Pessoa)</button>
+                    <button class="object-button" data-object="usuario">Funcionário</button>
+                    <button class="object-button" data-object="discente">Discente</button>
+                    <button class="object-button" data-object="docente">Docente</button>
                 </div>
             </section>
 
             <section class="action-panel">
+                <div class="action-list">
+                    <button class="action-button active" data-action="consultar">Consultar</button>
+                    <button class="action-button" data-action="cadastrar">Cadastrar</button>
+                    <button class="action-button" data-action="atualizar">Atualizar</button>
+                    <button class="action-button" data-action="deletar">Deletar</button>
+                </div>
+
                 <div class="action-content">
                     
-                    <article class="action-card active" data-action="usuario">
-                        <h3>Cadastrar Funcionário</h3>
-                        <form class="component-form" data-endpoint="usuario">
-                            <label for="nome-func">Nome Completo</label>
-                            <input type="text" id="nome-func" name="nome" placeholder="Digite o nome completo" required>
+                    <article class="action-card" data-action="cadastrar">
+                        <div class="object-panel" data-object="usuario">
+                            <h3>Cadastrar Funcionário</h3>
+                            <form class="component-form" data-object="usuario">
+                                <label>Nome Completo</label>
+                                <input type="text" name="nome" placeholder="Nome do funcionário" required>
 
-                            <label for="email-func">E-mail</label>
-                            <input type="email" id="email-func" name="email" placeholder="nome@instituicao.com" required>
+                                <label>E-mail</label>
+                                <input type="email" name="email" placeholder="nome@instituicao.com" required>
 
-                            <label for="cpf">CPF do Funcionário</label>
-                            <input 
-                                type="text" 
-                                class="Cpf" 
-                                name="cpf" 
-                                placeholder="xxx.xxx.xxx-xx"
-                                minlength="14"
-                                maxlength="14"
-                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-                                title="Digite o CPF no formato: 000.000.000-00"
-                                required
-                            >
+                                <label>CPF</label>
+                                <input type="text" class="Cpf" name="cpf" placeholder="Apenas números" minlength="11" maxlength="11" required>
 
-                            <label for="senha-func">Senha</label>
-                            <input type="password" id="senha-func" name="senha" placeholder="Crie uma senha segura" required>
+                                <label>Senha</label>
+                                <input type="password" name="senha" placeholder="Crie uma senha" required>
 
-                            <button type="submit">Cadastrar Funcionário</button>
-                        </form>
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="discente">
+                            <h3>Cadastrar Discente</h3>
+                            <form class="component-form" data-object="discente">
+                                <label>Nome Completo</label>
+                                <input type="text" name="nome" placeholder="Nome do aluno" required>
+
+                                <label>E-mail</label>
+                                <input type="email" name="email" placeholder="nome@instituicao.com" required>
+
+                                <label>CPF</label>
+                                <input type="text" class="Cpf" name="cpf" placeholder="Apenas números" minlength="11" maxlength="11" required>
+
+                                <label>RA (Registro Acadêmico)</label>
+                                <input type="text" name="ra" placeholder="Digite o RA" required>
+
+                                <label>Senha</label>
+                                <input type="password" name="senha" placeholder="Crie uma senha" required>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="docente">
+                            <h3>Cadastrar Docente</h3>
+                            <form class="component-form" data-object="docente">
+                                <label>Nome Completo</label>
+                                <input type="text" name="nome" placeholder="Nome do docente" required>
+
+                                <label>E-mail</label>
+                                <input type="email" name="email" placeholder="nome@instituicao.com" required>
+
+                                <label>CPF</label>
+                                <input type="text" class="Cpf" name="cpf" placeholder="Apenas números" minlength="11" maxlength="11" required>
+
+                                <label>SIAPE</label>
+                                <input type="text" name="siape" placeholder="Digite o número SIAPE" required>
+
+                                <label>Senha</label>
+                                <input type="password" name="senha" placeholder="Crie uma senha" required>
+
+                                <button type="submit">Cadastrar</button>
+                            </form>
+                        </div>
                     </article>
 
-                    <article class="action-card" data-action="aluno">
-                        <h3>Cadastrar Discente</h3>
-                        <form class="component-form" data-endpoint="discente">
-                            <label for="nome-aluno">Nome Completo</label>
-                            <input type="text" id="nome-aluno" name="nome" placeholder="Digite o nome completo" required>
+                    <article class="action-card active" data-action="consultar">
+                        <div class="object-panel active" data-object="pessoa">
+                            <h3>Consultar Pessoas</h3>
+                            <p>Utilize os filtros abaixo para buscar por registros na classe base (Pessoa).</p>
+                            <form class="consult-form" data-object="pessoa">
+                                <label>Tipo de Busca</label>
+                                <select name="tipoBusca">
+                                    <option value="todos">Todos (Sem filtro)</option>
+                                    <option value="id">Por ID da Pessoa</option>
+                                    <option value="cpf">Por CPF</option>
+                                    <option value="email">Por E-mail</option>
+                                </select>
 
-                            <label for="email-aluno">E-mail</label>
-                            <input type="email" id="email-aluno" name="email" placeholder="nome@instituicao.com" required>
+                                <label>Valor (Para ID, CPF ou Email)</label>
+                                <input type="text" name="valor" placeholder="Valor da busca">
 
-                            <label for="cpf">CPF do Discente</label>
-                            <input 
-                                type="text" 
-                                class="Cpf" 
-                                name="cpf" 
-                                placeholder="xxx.xxx.xxx-xx"
-                                minlength="14"
-                                maxlength="14"
-                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-                                title="Digite o CPF no formato: 000.000.000-00"
-                                required
-                            >
-
-                            <label for="ra-aluno">RA (Registro Acadêmico)</label>
-                            <input type="text" id="ra-aluno" minlength="7" maxlength="7" name="ra" placeholder="Digite o RA do aluno" required>
-
-                            <button type="submit">Cadastrar Aluno</button>
-                        </form>
+                                <button type="submit">Consultar</button>
+                            </form>
+                        </div>
+                        
+                        <div class="object-panel" data-object="usuario">
+                            <div class="info-box">Para consultas, selecione a aba <strong>Geral (Pessoa)</strong> no menu acima.</div>
+                        </div>
+                        <div class="object-panel" data-object="discente">
+                            <div class="info-box">Para consultas, selecione a aba <strong>Geral (Pessoa)</strong> no menu acima.</div>
+                        </div>
+                        <div class="object-panel" data-object="docente">
+                            <div class="info-box">Para consultas, selecione a aba <strong>Geral (Pessoa)</strong> no menu acima.</div>
+                        </div>
                     </article>
 
-                    <article class="action-card" data-action="professor">
-                        <h3>Cadastrar Docente</h3>
-                        <form class="component-form" data-endpoint="docente">
-                            <label for="nome-prof">Nome Completo</label>
-                            <input type="text" id="nome-prof" name="nome" placeholder="Digite o nome completo" required>
+                    <article class="action-card" data-action="atualizar">
+                        <div class="object-panel" data-object="usuario">
+                            <h3>Atualizar Senha de Funcionário</h3>
+                            <form class="update-form" data-object="usuario">
+                                <label>ID do Funcionário (Alvo)</label>
+                                <input type="number" name="id" min="1" required>
 
-                            <label for="email-prof">E-mail</label>
-                            <input type="email" id="email-prof" name="email" placeholder="nome@instituicao.com" required>
+                                <label>Nova Senha</label>
+                                <input type="password" name="senha" required>
 
-                            <label for="cpf">CPF do Docente</label>
-                            <input 
-                                type="text" 
-                                class="Cpf" 
-                                name="cpf" 
-                                placeholder="xxx.xxx.xxx-xx"
-                                minlength="14"
-                                maxlength="14"
-                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-                                title="Digite o CPF no formato: 000.000.000-00"
-                                required
-                            >
-                            
-                            <label for="siape-prof">SIAPE</label>
-                            <input type="text" id="siape-prof" minlength="7" maxlength="8" name="siape" placeholder="Digite o número SIAPE" required>
+                                <button type="submit">Atualizar Senha</button>
+                            </form>
+                        </div>
 
-                            <button type="submit">Cadastrar Professor</button>
-                        </form>
+                        <div class="object-panel" data-object="discente">
+                            <h3>Atualizar Registro Acadêmico (RA)</h3>
+                            <form class="update-form" data-object="discente">
+                                <label>ID do Discente (Alvo)</label>
+                                <input type="number" name="id" min="1" required>
+
+                                <label>Novo RA</label>
+                                <input type="text" name="ra" placeholder="Digite o novo RA" required>
+
+                                <button type="submit">Atualizar RA</button>
+                            </form>
+                        </div>
+
+                        <div class="object-panel" data-object="docente">
+                            <h3>Atualizar Número SIAPE</h3>
+                            <form class="update-form" data-object="docente">
+                                <label>ID do Docente (Alvo)</label>
+                                <input type="number" name="id" min="1" required>
+
+                                <label>Novo SIAPE</label>
+                                <input type="text" name="siape" placeholder="Digite o novo SIAPE" required>
+
+                                <button type="submit">Atualizar SIAPE</button>
+                            </form>
+                        </div>
                     </article>
 
+                    <article class="action-card" data-action="deletar">
+                        <div class="object-panel active" data-object="pessoa">
+                            <h3>Deletar Pessoa</h3>
+                            <p>Informe o ID do registro (classe Pessoa) para remoção permanente.</p>
+                            <form class="delete-form" data-object="pessoa">
+                                <label>ID do registro</label>
+                                <input type="number" name="id" min="1" placeholder="ID" required>
+                                <button type="submit" style="background-color: #dc2626;">Deletar</button>
+                            </form>
+                        </div>
+                        
+                        <div class="object-panel" data-object="usuario">
+                            <div class="info-box">Para deletar, selecione a aba <strong>Geral (Pessoa)</strong> no menu acima.</div>
+                        </div>
+                        <div class="object-panel" data-object="discente">
+                            <div class="info-box">Para deletar, selecione a aba <strong>Geral (Pessoa)</strong> no menu acima.</div>
+                        </div>
+                        <div class="object-panel" data-object="docente">
+                            <div class="info-box">Para deletar, selecione a aba <strong>Geral (Pessoa)</strong> no menu acima.</div>
+                        </div>
+                    </article>
                 </div>
+
+                <div class="consulta-result" style="margin-top: 30px;">
+                    <div id="consultaMensagem" class="info-box">Aguardando ação...</div>
+                    <div id="consultaResultado" class="result-list"></div>
+                </div>
+
             </section>
         </main>
     </body>

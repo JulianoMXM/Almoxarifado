@@ -70,7 +70,7 @@ public class UsuarioController {
     // a logica terá que mudar dependendo de como funcionar o sistema de login, porém ja fiz algo q eu considero uma base
     @PatchMapping("/{id}") 
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Usuario atualizarUsuario(@Valid @RequestBody AtualizarUsuarioDTO dto, @PathVariable Long id, @RequestParam Long adminId) throws NotFoundException {
+    public Usuario atualizarUsuario(@Valid @RequestBody AtualizarUsuarioDTO dto, @PathVariable Long id) throws NotFoundException {
         Usuario usuarioExistente = usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException());
 
         if (dto.getSenha() != null) {

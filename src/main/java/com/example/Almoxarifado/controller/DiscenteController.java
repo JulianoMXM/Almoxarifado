@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +63,7 @@ public class DiscenteController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Discente atualizarDiscente(@Valid @RequestBody AtualizarDiscenteDTO dto, @PathVariable Long id) throws NotFoundException {
         Discente discenteExistente = discenteRepository.findById(id).orElseThrow(() -> new NotFoundException());
 
