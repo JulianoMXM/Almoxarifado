@@ -67,7 +67,7 @@ public class EmprestimoController{
         Pessoa solicitante = pessoaRepository.findByCpf(dto.getCpfSolicitante())
             .orElseThrow(() -> new NotFoundException());
 
-        Usuario funcionario = usuarioRepository.findById(dto.getFuncionario().getId())
+        Usuario funcionario = usuarioRepository.findById(dto.getId())
             .orElseThrow(() -> new NotFoundException());
 
         ItemEmprestavel item = itemRepository.findById(dto.getItemEmprestado().getId())

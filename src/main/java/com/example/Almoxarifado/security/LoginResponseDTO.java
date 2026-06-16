@@ -1,5 +1,5 @@
 package com.example.Almoxarifado.security;
 
-public record LoginResponseDTO(String token) {
+public record LoginResponseDTO(String token, Long idFuncionario) {
     
 }

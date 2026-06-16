@@ -11,60 +11,120 @@
         <header class="topbar">
             <div class="brand">Almoxarifado</div>
             <nav class="page-nav">
+                <a href="../emprestimos/index.html" class="nav-link">Empréstimos</a>
                 <a href="../componentes/index.html" class="nav-link">Componentes</a>
                 <a href="../chaves/index.html" class="nav-link">Chaves</a>
-                <a href="../cadastro/index.html" class="nav-link active">Cadastro</a>
+                <a href="../cadastro/index.html" class="nav-link active">Pessoas</a>
             </nav>
         </header>
 
         <main class="container">
             <section class="hero">
                 <h1>Controle de Acesso</h1>
-                <p>Gerencie as contas do sistema permitindo o autocadastro de novos usuários comuns, alunos ou professores com suas respectivas credenciais.</p>
+                <p>Gerencie as contas do sistema permitindo o autocadastro de novos funcionários, discentes ou docentes.</p>
             </section>
 
             <section class="selector-panel">
                 <div class="selector-title">
                     <h2>Tipo de perfil</h2>
                 </div>
-                <div class="object-tabs">
-                    <button class="object-button active" data-profile="usuario">Usuário Comum</button>
-                    <button class="object-button" data-profile="aluno">Aluno</button>
-                    <button class="object-button" data-profile="professor">Professor</button>
+                <div class="action-list">
+                    <button class="action-button active" data-action="usuario">Funcionário</button>
+                    <button class="action-button" data-action="aluno">Discente</button>
+                    <button class="action-button" data-action="professor">Docente</button>
                 </div>
             </section>
 
             <section class="action-panel">
                 <div class="action-content">
-                    <article class="action-card active">
-                        <h3 id="formTitle">Cadastrar Usuário Comum</h3>
-                        
-                        <form id="cadastroUsuarioForm" class="component-form">
-                            <label for="nome">Nome Completo</label>
-                            <input type="text" id="nome" name="nome" placeholder="Digite o nome completo" required>
+                    
+                    <article class="action-card active" data-action="usuario">
+                        <h3>Cadastrar Funcionário</h3>
+                        <form class="component-form" data-endpoint="usuario">
+                            <label for="nome-func">Nome Completo</label>
+                            <input type="text" id="nome-func" name="nome" placeholder="Digite o nome completo" required>
 
-                            <label for="email">E-mail</label>
-                            <input type="email" id="email" name="email" placeholder="nome@instituicao.com" required>
+                            <label for="email-func">E-mail</label>
+                            <input type="email" id="email-func" name="email" placeholder="nome@instituicao.com" required>
 
-                            <label for="cpf">CPF</label>
-                            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                            <label for="cpf">CPF do Funcionário</label>
+                            <input 
+                                type="text" 
+                                id="cpf" 
+                                name="cpf" 
+                                placeholder="xxx.xxx.xxx-xx"
+                                minlength="14"
+                                maxlength="14"
+                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                title="Digite o CPF no formato: 000.000.000-00"
+                                required
+                            >
 
-                            <div class="profile-field" data-profile="aluno" style="display: none;">
-                                <label for="ra">RA (Registro Acadêmico)</label>
-                                <input type="text" id="ra" name="ra" placeholder="Digite o RA do aluno">
-                            </div>
+                            <label for="senha-func">Senha</label>
+                            <input type="password" id="senha-func" name="senha" placeholder="Crie uma senha segura" required>
 
-                            <div class="profile-field" data-profile="professor" style="display: none;">
-                                <label for="siape">SIAPE</label>
-                                <input type="text" id="siape" name="siape" placeholder="Digite o número SIAPE">
-                            </div>
-
-                            <label for="senha">Senha</label>
-                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha segura" required>
-
-                            <button type="submit">Cadastrar</button>
+                            <button type="submit">Cadastrar Funcionário</button>
                         </form>
                     </article>
+
+                    <article class="action-card" data-action="aluno">
+                        <h3>Cadastrar Discente</h3>
+                        <form class="component-form" data-endpoint="discente">
+                            <label for="nome-aluno">Nome Completo</label>
+                            <input type="text" id="nome-aluno" name="nome" placeholder="Digite o nome completo" required>
+
+                            <label for="email-aluno">E-mail</label>
+                            <input type="email" id="email-aluno" name="email" placeholder="nome@instituicao.com" required>
+
+                            <label for="cpf">CPF do Discente</label>
+                            <input 
+                                type="text" 
+                                id="cpf" 
+                                name="cpf" 
+                                placeholder="xxx.xxx.xxx-xx"
+                                minlength="14"
+                                maxlength="14"
+                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                title="Digite o CPF no formato: 000.000.000-00"
+                                required
+                            >
+
+                            <label for="ra-aluno">RA (Registro Acadêmico)</label>
+                            <input type="text" id="ra-aluno" minlength="7" maxlength="7" ="ra" placeholder="Digite o RA do aluno" required>
+
+                            <button type="submit">Cadastrar Aluno</button>
+                        </form>
+                    </article>
+
+                    <article class="action-card" data-action="professor">
+                        <h3>Cadastrar Docente</h3>
+                        <form class="component-form" data-endpoint="docente">
+                            <label for="nome-prof">Nome Completo</label>
+                            <input type="text" id="nome-prof" name="nome" placeholder="Digite o nome completo" required>
+
+                            <label for="email-prof">E-mail</label>
+                            <input type="email" id="email-prof" name="email" placeholder="nome@instituicao.com" required>
+
+                            <label for="cpf">CPF do Docente</label>
+                            <input 
+                                type="text" 
+                                id="cpf" 
+                                name="cpf" 
+                                placeholder="xxx.xxx.xxx-xx"
+                                minlength="14"
+                                maxlength="14"
+                                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                title="Digite o CPF no formato: 000.000.000-00"
+                                required
+                            >
+                            
+                            <label for="siape-prof">SIAPE</label>
+                            <input type="text" id="siape-prof" minlength="7" maxlength="8" name="siape" placeholder="Digite o número SIAPE" required>
+
+                            <button type="submit">Cadastrar Professor</button>
+                        </form>
+                    </article>
+
                 </div>
             </section>
         </main>

@@ -1,292 +1,108 @@
+const API_BASE_URL = "http://localhost:8080"; // Ajuste para a porta do seu Spring Boot
+
+document.addEventListener('DOMContentLoaded', () => {
+    inicializarGerenciadorAbas();
+    inicializarFormularios();
+    inicializarMascaras();
+});
+
 /**
- * Sistema de Cadastro de Usuários
- * Controla a lógica de seleção de perfil (Usuário, Aluno, Professor)
- * e gerencia os campos do formulário dinamicamente
+ * Controla a alternância visual das abas de Perfil (Funcionário, Aluno, Professor)
  */
+function inicializarGerenciadorAbas() {
+    const botoesAcao = document.querySelectorAll('.action-button');
+    const cardsAcao = document.querySelectorAll('.action-card');
 
-document.addEventListener('DOMContentLoaded', function() {
-    const profileButtons = document.querySelectorAll('.object-button[data-profile]');
-    const profileFields = document.querySelectorAll('.profile-field');
-    const formTitle = document.getElementById('formTitle');
-    const cadastroForm = document.getElementById('cadastroUsuarioForm');
-    
-    let currentProfile = 'usuario'; // Perfil padrão
+    botoesAcao.forEach(botao => {
+        botao.addEventListener('click', () => {
+            const acaoAlvo = botao.dataset.action;
 
-    /**
-     * Mapa de configurações por perfil
-     */
-    const profileConfig = {
-        usuario: {
-            title: 'Cadastrar Usuário Comum',
-            requiredFields: ['nome', 'email', 'cpf', 'senha'],
-            description: 'Cadastre um usuário comum com CPF'
-        },
-        aluno: {
-            title: 'Cadastrar Aluno',
-            requiredFields: ['nome', 'email', 'cpf', 'ra', 'senha'],
-            description: 'Cadastre um aluno com CPF e RA (Registro Acadêmico)'
-        },
-        professor: {
-            title: 'Cadastrar Professor',
-            requiredFields: ['nome', 'email', 'cpf', 'siape', 'senha'],
-            description: 'Cadastre um professor com CPF e SIAPE'
-        }
-    };
+            // Remove o estado ativo de todos os botões e atribui ao clicado
+            botoesAcao.forEach(btn => btn.classList.remove('active'));
+            botao.classList.add('active');
 
-    /**
-     * Alterna o perfil selecionado e atualiza os campos do formulário
-     */
-    profileButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const profile = this.getAttribute('data-profile');
-            selectProfile(profile);
+            // Exibe apenas o card correspondente ao perfil selecionado
+            cardsAcao.forEach(card => {
+                if (card.dataset.action === acaoAlvo) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
         });
     });
+}
 
-    /**
-     * Função para selecionar um perfil
-     */
-    function selectProfile(profile) {
-        // Atualiza o perfil atual
-        currentProfile = profile;
+/**
+ * Captura todos os formulários e intercepta os envios para a API
+ */
+function inicializarFormularios() {
+    const formularios = document.querySelectorAll('.component-form');
 
-        // Remove a classe 'active' de todos os botões
-        profileButtons.forEach(btn => btn.classList.remove('active'));
-
-        // Adiciona 'active' ao botão clicado
-        document.querySelector(`.object-button[data-profile="${profile}"]`).classList.add('active');
-
-        // Atualiza o título do formulário
-        if (formTitle) {
-            formTitle.textContent = profileConfig[profile].title;
-        }
-
-        // Mostra/oculta os campos de acordo com o perfil
-        updateFormFields(profile);
-
-        // Limpa as mensagens de erro
-        clearFormErrors();
-    }
-
-    /**
-     * Atualiza os campos do formulário baseado no perfil
-     */
-    function updateFormFields(profile) {
-        profileFields.forEach(field => {
-            const fieldProfile = field.getAttribute('data-profile');
+    formularios.forEach(form => {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
             
-            if (fieldProfile === profile) {
-                field.style.display = 'grid';
-                // Adiciona animação de fade-in
-                field.style.animation = 'none';
-                setTimeout(() => {
-                    field.style.animation = 'fadeInField 0.2s ease-in-out';
-                }, 10);
-            } else {
-                field.style.display = 'none';
-            }
-        });
+            const endpoint = form.dataset.endpoint;
+            const data = new FormData(form);
+            const payload = Object.fromEntries(data.entries());
 
-        // Atualiza os atributos 'required' dos inputs
-        updateRequiredFields(profile);
-    }
-
-    /**
-     * Atualiza os campos obrigatórios baseado no perfil
-     */
-    function updateRequiredFields(profile) {
-        const allInputs = cadastroForm.querySelectorAll('input, textarea, select');
-        const requiredFields = profileConfig[profile].requiredFields;
-
-        allInputs.forEach(input => {
-            if (requiredFields.includes(input.id)) {
-                input.setAttribute('required', 'required');
-            } else {
-                input.removeAttribute('required');
-            }
-        });
-    }
-
-    /**
-     * Valida o formulário antes de enviar
-     */
-    function validateForm(data) {
-        const errors = [];
-
-        // Validação de nome
-        if (!data.nome || data.nome.trim().length < 3) {
-            errors.push('Nome deve ter pelo menos 3 caracteres');
-        }
-
-        // Validação de email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!data.email || !emailRegex.test(data.email)) {
-            errors.push('E-mail inválido');
-        }
-
-        // Validação de CPF
-        if (!data.cpf || !validateCPF(data.cpf)) {
-            errors.push('CPF inválido');
-        }
-
-        // Validação de RA (se for aluno)
-        if (currentProfile === 'aluno' && (!data.ra || data.ra.trim().length === 0)) {
-            errors.push('RA (Registro Acadêmico) é obrigatório para alunos');
-        }
-
-        // Validação de SIAPE (se for professor)
-        if (currentProfile === 'professor' && (!data.siape || data.siape.trim().length === 0)) {
-            errors.push('SIAPE é obrigatório para professores');
-        }
-
-        // Validação de senha
-        if (!data.senha || data.senha.length < 6) {
-            errors.push('Senha deve ter pelo menos 6 caracteres');
-        }
-
-        return errors;
-    }
-
-    /**
-     * Valida CPF (formato básico)
-     */
-    function validateCPF(cpf) {
-        // Remove caracteres especiais
-        const cleanCPF = cpf.replace(/\D/g, '');
-
-        // Verifica se tem 11 dígitos
-        if (cleanCPF.length !== 11) {
-            return false;
-        }
-
-        // Verifica se não é uma sequência repetida (ex: 111.111.111-11)
-        if (/^(\d)\1{10}$/.test(cleanCPF)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Limpa mensagens de erro do formulário
-     */
-    function clearFormErrors() {
-        const errorDiv = document.getElementById('formErrors');
-        if (errorDiv) {
-            errorDiv.remove();
-        }
-    }
-
-    /**
-     * Exibe mensagens de erro
-     */
-    function showErrors(errors) {
-        clearFormErrors();
-
-        const errorDiv = document.createElement('div');
-        errorDiv.id = 'formErrors';
-        errorDiv.style.cssText = `
-            background-color: #fee2e2;
-            border: 1px solid #fecaca;
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-            color: #991b1b;
-        `;
-
-        const errorList = document.createElement('ul');
-        errorList.style.cssText = `
-            margin: 0;
-            padding-left: 20px;
-        `;
-
-        errors.forEach(error => {
-            const li = document.createElement('li');
-            li.textContent = error;
-            errorList.appendChild(li);
-        });
-
-        errorDiv.appendChild(errorList);
-        cadastroForm.insertBefore(errorDiv, cadastroForm.firstChild);
-    }
-
-    /**
-     * Exibe mensagem de sucesso
-     */
-    function showSuccess() {
-        clearFormErrors();
-
-        const successDiv = document.createElement('div');
-        successDiv.id = 'formSuccess';
-        successDiv.style.cssText = `
-            background-color: #dcfce7;
-            border: 1px solid #86efac;
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-            color: #166534;
-            font-weight: 600;
-        `;
-        successDiv.textContent = '✓ Cadastro realizado com sucesso!';
-
-        cadastroForm.insertBefore(successDiv, cadastroForm.firstChild);
-
-        // Remove a mensagem após 3 segundos
-        setTimeout(() => {
-            successDiv.remove();
-        }, 3000);
-    }
-
-    /**
-     * Manipula o envio do formulário
-     */
-    cadastroForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        // Coleta os dados do formulário
-        const formData = new FormData(cadastroForm);
-        const data = {
-            nome: formData.get('nome'),
-            email: formData.get('email'),
-            cpf: formData.get('cpf'),
-            ra: formData.get('ra') || null,
-            siape: formData.get('siape') || null,
-            senha: formData.get('senha'),
-            tipo: currentProfile
-        };
-
-        // Valida os dados
-        const errors = validateForm(data);
-        if (errors.length > 0) {
-            showErrors(errors);
-            return;
-        }
-
-        try {
-            // Envia os dados para o servidor
-            const response = await fetch('/api/usuarios/cadastro', {
+            // Envia a requisição dinamicamente para /usuarios, /alunos ou /professores
+            alert(`${API_BASE_URL}/${endpoint}`)
+            fetch(`${API_BASE_URL}/${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
+            })
+            .then(async response => {
+                if (response.ok) {
+                    alert('✓ Cadastro realizado com sucesso!');
+                    form.reset();
+                } else {
+                    // Captura a mensagem de erro vinda das validações do Java (ex: Email/CPF duplicado)
+                    const erroTxt = await response.text();
+                    alert(`Erro ao cadastrar: ${erroTxt || 'Verifique as informações.'}`);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Erro de conexão. Verifique se o servidor backend está rodando.');
             });
-
-            if (response.ok) {
-                showSuccess();
-                cadastroForm.reset();
-                // Reseta para o perfil padrão
-                selectProfile('usuario');
-            } else {
-                const errorData = await response.json();
-                showErrors([errorData.message || 'Erro ao cadastrar. Tente novamente.']);
-            }
-        } catch (error) {
-            console.error('Erro na requisição:', error);
-            showErrors(['Erro de conexão. Verifique sua internet e tente novamente.']);
-        }
+        });
     });
+}
 
-    // Inicializa com o perfil padrão
-    selectProfile('usuario');
-});
+/**
+ * Adiciona a máscara de formatação automática para inputs de CPF
+ */
+function inicializarMascaras() {
+    const cpfs = document.querySelectorAll('.mask-cpf');
+    cpfs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, "");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            e.target.value = value;
+        });
+    });
+}
+
+const inputCpf = document.getElementById('cpf');
+if (inputCpf) {
+    inputCpf.addEventListener('input', (e) => {
+        let value = e.target.value;
+        
+        // Remove tudo o que não for número
+        value = value.replace(/\D/g, "");
+        
+        // Aplica a máscara dinamicamente
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        
+        e.target.value = value;
+    });
+}

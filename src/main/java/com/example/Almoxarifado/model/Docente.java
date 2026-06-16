@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class Docente extends Pessoa {
     @NotNull(message = "O SIAPE é obrigatório.")
+    @Column(unique = true, nullable = false)
     @Size(min = 7, max = 8, message = "O SIAPE deve conter entre 7 e 8 digitos.")
     private Integer siape;
 }

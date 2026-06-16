@@ -32,8 +32,10 @@ public class AuthController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.gerarToken((Usuario) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        Usuario usuario = (Usuario) auth.getPrincipal();
+
+        var token = tokenService.gerarToken(usuario);
+        return ResponseEntity.ok(new LoginResponseDTO(token, usuario.getId()));
     }
 
     @PostMapping("/cadastrar")

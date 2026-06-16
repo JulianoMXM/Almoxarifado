@@ -28,6 +28,9 @@ public class CadastrarEmprestimoDTO {
     @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato XXX.XXX.XXX-XX")
     private String cpfSolicitante;
 
+    @NotNull(message = "O funcionário precisa estar logado.")
+    private Long id;
+
     @NotNull(message = "A quantidade emprestada é obrigatória.")
     @Min(value = 1, message = "A quantidade emprestada deve ser de pelo menos 1 item.")
     private Integer quantidade;

@@ -20,10 +20,12 @@ public abstract class Pessoa {
     private String nome;
 
     @NotBlank(message = "O Email é obrigatório.")
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotBlank(message = "O CPF é obrigatório.")
     @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato XXX.XXX.XXX-XX")
+    @Column(unique = true, nullable = false)
     // A linha de cima garante que o CPF seja inserido no formato correto, com pontos e hífen.
     private String cpf;
 }

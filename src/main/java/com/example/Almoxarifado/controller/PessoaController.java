@@ -33,10 +33,15 @@ public class PessoaController {
     public Pessoa consultarPessoaId(@PathVariable Long id) throws NotFoundException {
         return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
-    
-    @GetMapping("/filtro/{cpf}") // espero que essa minha lógica funcione, pq se não vou ficar lelé
+
+    @GetMapping("/buscaCpf/{cpf}") // espero que essa minha lógica funcione, pq se não vou ficar lelé
     public Pessoa consultarPessoaCpf(@PathVariable String cpf) throws NotFoundException {
         return repository.findByCpf(cpf).orElseThrow(() -> new NotFoundException());
+    }
+    
+    @GetMapping("/buscaEmail/{email}") 
+    public Pessoa consultarPessoaEmail(@PathVariable String email) throws NotFoundException {
+        return repository.findByEmail(email).orElseThrow(() -> new NotFoundException());
     }
 
     @DeleteMapping("/{id}") 
