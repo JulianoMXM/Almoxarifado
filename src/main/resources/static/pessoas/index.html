@@ -13,7 +13,7 @@
                 <a href="../emprestimos/index.html" class="nav-link">Empréstimos</a>
                 <a href="../componentes/index.html" class="nav-link">Componentes</a>
                 <a href="../chaves/index.html" class="nav-link">Chaves</a>
-                <a href="../cadastro/index.html" class="nav-link active">Pessoas</a>
+                <a href="../pessoas/index.html" class="nav-link active">Pessoas</a>
             </nav>
         </header>
 
@@ -143,41 +143,68 @@
 
                     <article class="action-card" data-action="atualizar">
                         <div class="object-panel" data-object="usuario">
-                            <h3>Atualizar Senha de Funcionário</h3>
+                            <h3>Atualizar Funcionário</h3>
                             <form class="update-form" data-object="usuario">
                                 <label>ID do Funcionário (Alvo)</label>
                                 <input type="number" name="id" min="1" required>
 
-                                <label>Nova Senha</label>
-                                <input type="password" name="senha" required>
+                                <label>Nome (Opcional)</label>
+                                <input type="text" name="nome" placeholder="Nome completo">
 
-                                <button type="submit">Atualizar Senha</button>
+                                <label>E-mail (Opcional)</label>
+                                <input type="email" name="email" placeholder="nome@instituicao.com">
+
+                                <label>CPF (Opcional)</label>
+                                <input type="text" class="Cpf" name="cpf" placeholder="Apenas números" minlength="14" maxlength="14">
+
+                                <label>Nova Senha (Opcional)</label>
+                                <input type="password" name="senha" placeholder="Crie uma nova senha">
+
+                                <button type="submit">Atualizar</button>
                             </form>
                         </div>
 
                         <div class="object-panel" data-object="discente">
-                            <h3>Atualizar Registro Acadêmico (RA)</h3>
+                            <h3>Atualizar Discente</h3>
                             <form class="update-form" data-object="discente">
                                 <label>ID do Discente (Alvo)</label>
                                 <input type="number" name="id" min="1" required>
 
-                                <label>Novo RA</label>
-                                <input type="text" name="ra" placeholder="Digite o novo RA" required>
+                                <label>Nome (Opcional)</label>
+                                <input type="text" name="nome" placeholder="Nome completo">
 
-                                <button type="submit">Atualizar RA</button>
+                                <label>E-mail (Opcional)</label>
+                                <input type="email" name="email" placeholder="nome@instituicao.com">
+
+                                <label>CPF (Opcional)</label>
+                                <input type="text" class="Cpf" name="cpf" placeholder="Apenas números" minlength="14" maxlength="14">
+
+                                <label>RA (Opcional)</label>
+                                <input type="text" name="ra" placeholder="Digite o novo RA">
+
+                                <button type="submit">Atualizar</button>
                             </form>
                         </div>
 
                         <div class="object-panel" data-object="docente">
-                            <h3>Atualizar Número SIAPE</h3>
+                            <h3>Atualizar Docente</h3>
                             <form class="update-form" data-object="docente">
                                 <label>ID do Docente (Alvo)</label>
                                 <input type="number" name="id" min="1" required>
 
-                                <label>Novo SIAPE</label>
-                                <input type="text" name="siape" placeholder="Digite o novo SIAPE" required>
+                                <label>Nome (Opcional)</label>
+                                <input type="text" name="nome" placeholder="Nome completo">
 
-                                <button type="submit">Atualizar SIAPE</button>
+                                <label>E-mail (Opcional)</label>
+                                <input type="email" name="email" placeholder="nome@instituicao.com">
+
+                                <label>CPF (Opcional)</label>
+                                <input type="text" class="Cpf" name="cpf" placeholder="Apenas números" minlength="14" maxlength="14">
+
+                                <label>SIAPE (Opcional)</label>
+                                <input type="text" name="siape" placeholder="Digite o novo SIAPE">
+
+                                <button type="submit">Atualizar</button>
                             </form>
                         </div>
                     </article>

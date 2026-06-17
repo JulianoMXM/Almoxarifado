@@ -1,5 +1,6 @@
 package com.example.Almoxarifado.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,5 @@ import com.example.Almoxarifado.model.Pessoa;
 public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
     Optional<Pessoa> findByCpf(String cpf);
     Optional<Pessoa> findByEmail(String email);
+    List<Pessoa> findAllByOrderByIdAsc();
 }

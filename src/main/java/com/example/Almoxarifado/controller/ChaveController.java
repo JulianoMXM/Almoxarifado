@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,12 +48,14 @@ public class ChaveController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Chave cadastrarChave(@Valid @RequestBody Chave novaChave){
         novaChave.setSala(novaChave.getSala().trim().toUpperCase());
         return repository.save(novaChave);
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Chave atualizarChave(@Valid @RequestBody AtualizarChaveDTO dto, @PathVariable Long id) throws NotFoundException{
         Chave chaveExistente = this.consultarChave(id);
 
@@ -66,6 +69,7 @@ public class ChaveController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public String deletarChave(@PathVariable Long id) throws NotFoundException{
         Chave chaveExistente = this.consultarChave(id);
         repository.delete(chaveExistente);

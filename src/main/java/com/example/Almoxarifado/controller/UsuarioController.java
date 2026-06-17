@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,6 +52,7 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public Usuario cadastrarUsuario(@RequestBody Usuario novoUsuario) throws BadRequestException{
         Optional<Pessoa> cpfExistente = pessoaRepository.findByCpf(novoUsuario.getCpf());
         if(cpfExistente.isPresent()){
@@ -70,11 +70,29 @@ public class UsuarioController {
     // a logica terá que mudar dependendo de como funcionar o sistema de login, porém ja fiz algo q eu considero uma base
     @PatchMapping("/{id}") 
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Usuario atualizarUsuario(@Valid @RequestBody AtualizarUsuarioDTO dto, @PathVariable Long id) throws NotFoundException {
+    public Usuario atualizarUsuario(@Valid @RequestBody AtualizarUsuarioDTO dto, @PathVariable Long id) throws NotFoundException, BadRequestException {
         Usuario usuarioExistente = usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException());
 
+        if(dto.getCpf() != null && !dto.getCpf().equals(usuarioExistente.getCpf())){
+            Optional<Pessoa> cpfExistente = pessoaRepository.findByCpf(dto.getCpf());
+            if(cpfExistente.isPresent()){
+                throw new BadRequestException("CPF já cadastrado no sistema.");
+            }
+            usuarioExistente.setCpf(dto.getCpf());
+        }
+        if(dto.getEmail() != null && !dto.getEmail().equals(usuarioExistente.getEmail())){
+            Optional<Pessoa> emailExistente = pessoaRepository.findByEmail(dto.getEmail());
+            if(emailExistente.isPresent()){
+                throw new BadRequestException("Email já cadastrado no sistema.");
+            }
+            usuarioExistente.setEmail(dto.getEmail());
+        }
+        if(dto.getNome() != null){
+            usuarioExistente.setNome(dto.getNome());
+        }
         if (dto.getSenha() != null) {
-            usuarioExistente.setSenha(dto.getSenha());
+            String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+            usuarioExistente.setSenha(senhaCriptografada);
         }
 
         return usuarioRepository.save(usuarioExistente);

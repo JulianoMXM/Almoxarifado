@@ -52,7 +52,7 @@ public class DocenteController {
     }
 
     @PostMapping
-    public Docente cadastrarDocente(@RequestBody Docente novoDocente) throws BadRequestException{
+    public Docente cadastrarDocente(@Valid @RequestBody Docente novoDocente) throws BadRequestException{
         Optional<Pessoa> cpfExistente = pessoaRepository.findByCpf(novoDocente.getCpf());
         if(cpfExistente.isPresent()){
             throw new BadRequestException("CPF já cadastrado no sistema.");
@@ -61,16 +61,41 @@ public class DocenteController {
         if(emailExistente.isPresent()){
             throw new BadRequestException("Email já cadastrado no sistema.");
         }
+        Optional<Docente> siapeExistente = docenteRepository.findBySiape(novoDocente.getSiape());
+        if(siapeExistente.isPresent()){
+            throw new BadRequestException("SIAPE já cadastrado no sistema.");
+        }
         return docenteRepository.save(novoDocente);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Docente atualizarDocente(@Valid @RequestBody AtualizarDocenteDTO dto, @PathVariable Long id) throws NotFoundException{
+    public Docente atualizarDocente(@Valid @RequestBody AtualizarDocenteDTO dto, @PathVariable Long id) throws NotFoundException, BadRequestException{
         Docente docenteExistente = docenteRepository.findById(id).orElseThrow(() -> new NotFoundException());
 
-        if(dto.getSiape() != null){
+        if(dto.getCpf() != null && !dto.getCpf().equals(docenteExistente.getCpf())){
+            Optional<Pessoa> cpfExistente = pessoaRepository.findByCpf(dto.getCpf());
+            if(cpfExistente.isPresent()){
+                throw new BadRequestException("CPF já cadastrado no sistema.");
+            }
+            docenteExistente.setCpf(dto.getCpf());
+        }
+        if(dto.getEmail() != null && !dto.getEmail().equals(docenteExistente.getEmail())){
+            Optional<Pessoa> emailExistente = pessoaRepository.findByEmail(dto.getEmail());
+            if(emailExistente.isPresent()){
+                throw new BadRequestException("Email já cadastrado no sistema.");
+            }
+            docenteExistente.setEmail(dto.getEmail());
+        }
+        if(dto.getSiape() != null && !dto.getSiape().equals(docenteExistente.getSiape())){
+            Optional<Docente> siapeExistente = docenteRepository.findBySiape(dto.getSiape());
+            if(siapeExistente.isPresent()){
+                throw new BadRequestException("SIAPE já cadastrado no sistema.");
+            }
             docenteExistente.setSiape(dto.getSiape());
+        }
+        if(dto.getNome() != null){
+            docenteExistente.setNome(dto.getNome());
         }
 
         return docenteRepository.save(docenteExistente);

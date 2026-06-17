@@ -26,7 +26,7 @@ public class PessoaController {
 
     @GetMapping
     public List<Pessoa> consultarTodasPessoas(){
-        return repository.findAll();
+        return repository.findAllByOrderByIdAsc();
     }
 
     @GetMapping("/{id}")

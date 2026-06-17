@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Almoxarifado.common.enums.StatusEmprestimoEnum;
 import com.example.Almoxarifado.dto.AtualizarEmprestimoDTO;
+import com.example.Almoxarifado.dto.AtualizarParteEmprestimoDTO;
 import com.example.Almoxarifado.dto.CadastrarEmprestimoDTO;
 import com.example.Almoxarifado.model.Componente;
 import com.example.Almoxarifado.model.Emprestimo;
@@ -78,6 +80,7 @@ public class EmprestimoController{
                 throw new BadRequestException("Estoque insuficiente.");
             }
             componente.setQntDisponivel(componente.getQntDisponivel() - dto.getQuantidade());
+            itemRepository.save(componente);
         }
         Emprestimo novoEmprestimo = new Emprestimo();
         novoEmprestimo.setDataLimite(dto.getDataLimite());
@@ -92,7 +95,7 @@ public class EmprestimoController{
     }
 
     @PatchMapping("/{id}")
-    public Emprestimo atualizarEmprestimo(@Valid @RequestBody AtualizarEmprestimoDTO dto, @PathVariable Long id) throws NotFoundException{
+    public Emprestimo atualizarParteEmprestimo(@Valid @RequestBody AtualizarParteEmprestimoDTO dto, @PathVariable Long id) throws NotFoundException{
         Emprestimo emprestimo = this.consultarEmprestimoId(id);
 
         if(dto.getDataDevolucao() != null){
@@ -104,7 +107,53 @@ public class EmprestimoController{
         return emprestimoRepository.save(emprestimo);
     }
 
-    @DeleteMapping("/{id}") 
+    @PatchMapping("/atualizarTotal/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public Emprestimo atualizarEmprestimo(@Valid @RequestBody AtualizarEmprestimoDTO dto, @PathVariable Long id) throws NotFoundException, BadRequestException{
+        Emprestimo emprestimo = this.consultarEmprestimoId(id);
+
+        if(dto.getCpfSolicitante() != null){
+            Pessoa solicitante = pessoaRepository.findByCpf(dto.getCpfSolicitante())
+                .orElseThrow(() -> new NotFoundException());
+            emprestimo.setSolicitante(solicitante);
+        }
+        if(dto.getDataDevolucao() != null){
+            emprestimo.setDataDevolucao(dto.getDataDevolucao());
+        }
+        if(dto.getStatus() != null){
+            emprestimo.setStatus(dto.getStatus());
+        }
+        if(dto.getDataLimite() != null){
+            emprestimo.setDataLimite(dto.getDataLimite());
+        }
+        if(dto.getDataRetirada() != null){
+            emprestimo.setDataRetirada(dto.getDataRetirada());
+        }
+        if(dto.getQuantidade() != null){
+            ItemEmprestavel itemEmprestavel = itemRepository.findById(emprestimo.getItemEmprestado().getId())
+                .orElseThrow(() -> new NotFoundException());
+            if(itemEmprestavel instanceof Componente componente){
+                int quantidadeAtualEmprestimo = emprestimo.getQuantidade() != null ? emprestimo.getQuantidade() : 0;
+                int novaQuantidade = dto.getQuantidade();
+                int delta = novaQuantidade - quantidadeAtualEmprestimo;
+                if(delta > 0){
+                    if(componente.getQntDisponivel() < delta){
+                        throw new BadRequestException("Estoque insuficiente.");
+                    }
+                    componente.setQntDisponivel(componente.getQntDisponivel() - delta);
+                } else if(delta < 0){
+                    componente.setQntDisponivel(componente.getQntDisponivel() + (-delta));
+                }
+                itemRepository.save(componente);
+            }
+            emprestimo.setQuantidade(dto.getQuantidade());
+        }
+
+        return emprestimoRepository.save(emprestimo);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')") 
     public String deletarEmprestimo(@PathVariable Long id) throws NotFoundException {
         Emprestimo EmprestimoExistente = this.consultarEmprestimoId(id);
         emprestimoRepository.delete(EmprestimoExistente);

@@ -45,8 +45,8 @@ function toggleActionButtons() {
             button.disabled = action === 'cadastrar' || action === 'atualizar';
             button.style.display = action === 'cadastrar' || action === 'atualizar' ? 'none' : '';
         } else {
-            button.disabled = action === 'deletar';
-            button.style.display = action === 'deletar' ? 'none' : '';
+            button.disabled = action === 'deletar' || action === 'consultar';;
+            button.style.display = action === 'deletar' || action === 'consultar' ? 'none' : '';
         }
     });
 
@@ -105,6 +105,8 @@ async function cadastrarObjeto(event) {
     const payload = Object.fromEntries(formData.entries());
 
     try {
+        clearFormErrors(form);
+
         const resposta = await fetch(`${API_BASE_URL}/${objeto}`, {
             method: 'POST',
             headers: {
@@ -115,8 +117,8 @@ async function cadastrarObjeto(event) {
         });
 
         if (!resposta.ok) {
-            const errTxt = await resposta.text();
-            throw new Error(`Erro ${resposta.status}: ${errTxt}`);
+            await handleBackendErrorResponse(resposta, form);
+            return;
         }
         alert(`${capitalize(objeto)} cadastrado com sucesso!`);
         form.reset();
@@ -125,53 +127,42 @@ async function cadastrarObjeto(event) {
     }
 }
 
-async function atualizarObjeto(event) {
+function atualizarObjeto(event) {
     event.preventDefault();
     const form = event.target;
-    const objeto = form.dataset.object; // "usuario", "discente" ou "docente"
-
+    const objeto = form.dataset.object;
     const id = form.querySelector('input[name="id"]').value;
-    
-    // Constrói dinamicamente o payload baseado nos inputs presentes no formulário
-    let payload = {};
-    if (objeto === 'usuario') {
-        payload.senha = form.querySelector('input[name="senha"]').value;
-    } else if (objeto === 'discente') {
-        payload.ra = form.querySelector('input[name="ra"]').value;
-    } else if (objeto === 'docente') {
-        payload.siape = form.querySelector('input[name="siape"]').value;
+    if (!id) {
+        return alert('Informe o ID para atualizar.');
+    }
+
+    const data = new FormData(form);
+    let body = {};
+    data.forEach((value, key) => {
+        if (!value || key === 'id') return;
+        body[key] = value;
+    });
+
+    if (Object.keys(body).length === 0) {
+        return alert('Informe ao menos um campo para atualizar.');
     }
 
     const url = `${API_BASE_URL}/${objeto}/${id}`;
-    
-    try {
-        const resposta = await fetch(url, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Spring Security validará se quem chama é ADM
-            },
-            body: JSON.stringify(payload)
-        });
 
-        if (!resposta.ok) {
-            if (resposta.status === 403) {
-                throw new Error("Acesso negado. Seu usuário não possui permissão de ADMINISTRADOR.");
-            }
-            throw new Error(`Erro ${resposta.status}`);
-        }
-        
-        // Mensagem de sucesso condicional e amigável
-        let mensagemSucesso = "Dados atualizados com sucesso!";
-        if (objeto === 'usuario') mensagemSucesso = "Senha do funcionário atualizada com sucesso!";
-        if (objeto === 'discente') mensagemSucesso = "RA do discente atualizado com sucesso!";
-        if (objeto === 'docente') mensagemSucesso = "SIAPE do docente atualizado com sucesso!";
-
-        alert(mensagemSucesso);
-        form.reset();
-    } catch (error) {
-        alert(`Falha ao atualizar: ${error.message}`);
-    }
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error(`Erro ${res.status}`);
+        return res.json();
+    })
+    .then(() => alert(`${capitalize(objeto)} atualizado com sucesso.`))
+    .catch(error => alert(`Falha ao atualizar: ${error.message}`));
 }
 
 async function deletarObjeto(event) {
@@ -255,6 +246,52 @@ function renderConsultaResultado(dados) {
 
 function capitalize(value) {
     return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function clearFormErrors(form) {
+    form.querySelectorAll('.field-error').forEach(errorElement => errorElement.remove());
+    form.querySelectorAll('.error-input').forEach(input => input.classList.remove('error-input'));
+}
+
+async function handleBackendErrorResponse(resposta, form) {
+    const status = resposta.status;
+    const texto = await resposta.text();
+    let mensagem = texto;
+
+    try {
+        const json = JSON.parse(texto);
+        if (json.message) mensagem = json.message;
+    } catch (ignored) {
+        // corpo não é JSON
+    }
+
+    const field = findFieldFromMessage(form, mensagem);
+    if (field) {
+        highlightFieldError(field, mensagem);
+    }
+
+    alert(`Falha: ${mensagem}`);
+}
+
+function findFieldFromMessage(form, mensagem) {
+    const keywords = ['CPF', 'Email', 'RA', 'SIAPE', 'nome', 'senha'];
+    const lowerMessage = mensagem.toLowerCase();
+
+    for (const key of keywords) {
+        if (lowerMessage.includes(key.toLowerCase())) {
+            return form.querySelector(`[name="${key.toLowerCase()}"]`) || form.querySelector(`[name="${key.toLowerCase()}" i]`);
+        }
+    }
+    return null;
+}
+
+function highlightFieldError(field, mensagem) {
+    field.classList.add('error-input');
+    const errorElement = document.createElement('div');
+    errorElement.className = 'field-error';
+    errorElement.textContent = mensagem;
+    errorElement.style.cssText = 'color:#b91c1c;margin-top:4px;font-size:0.9rem;';
+    field.insertAdjacentElement('afterend', errorElement);
 }
 
 // Inicializadores

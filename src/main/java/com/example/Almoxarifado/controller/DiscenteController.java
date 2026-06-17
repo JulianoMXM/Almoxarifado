@@ -50,7 +50,7 @@ public class DiscenteController {
     }
 
     @PostMapping
-    public Discente cadastrarDiscente(@RequestBody Discente novoDiscente) throws BadRequestException{
+    public Discente cadastrarDiscente(@Valid @RequestBody Discente novoDiscente) throws BadRequestException{
         Optional<Pessoa> cpfExistente = pessoaRepository.findByCpf(novoDiscente.getCpf());
         if(cpfExistente.isPresent()){
             throw new BadRequestException("CPF já cadastrado no sistema.");
@@ -64,11 +64,32 @@ public class DiscenteController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
-    public Discente atualizarDiscente(@Valid @RequestBody AtualizarDiscenteDTO dto, @PathVariable Long id) throws NotFoundException {
+    public Discente atualizarDiscente(@Valid @RequestBody AtualizarDiscenteDTO dto, @PathVariable Long id) throws NotFoundException, BadRequestException {
         Discente discenteExistente = discenteRepository.findById(id).orElseThrow(() -> new NotFoundException());
-
-        if (dto.getRa() != null) {
+        
+        if(dto.getCpf() != null && !dto.getCpf().equals(discenteExistente.getCpf())){
+            Optional<Pessoa> cpfExistente = pessoaRepository.findByCpf(dto.getCpf());
+            if(cpfExistente.isPresent()){
+                throw new BadRequestException("CPF já cadastrado no sistema.");
+            }
+            discenteExistente.setCpf(dto.getCpf());
+        }
+        if(dto.getEmail() != null && !dto.getEmail().equals(discenteExistente.getEmail())){
+            Optional<Pessoa> emailExistente = pessoaRepository.findByEmail(dto.getEmail());
+            if(emailExistente.isPresent()){
+                throw new BadRequestException("Email já cadastrado no sistema.");
+            }
+            discenteExistente.setEmail(dto.getEmail());
+        }
+        if(dto.getRa() != null && !dto.getRa().equals(discenteExistente.getRa())){
+            Optional<Discente> raExistente = discenteRepository.findByRa(dto.getRa());
+            if(raExistente.isPresent()){
+                throw new BadRequestException("RA já cadastrado no sistema.");
+            }
             discenteExistente.setRa(dto.getRa());
+        }
+        if(dto.getNome() != null){
+            discenteExistente.setNome(dto.getNome());
         }
 
         return discenteRepository.save(discenteExistente);

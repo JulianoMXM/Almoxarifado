@@ -37,8 +37,7 @@ public class SecurityConfigs {
                 }))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    // Permitir acesso ao site (HTML) e recursos estáticos
-                    req.requestMatchers("/", "/index.html", "/style.css", "/script.js").permitAll();
+                    req.requestMatchers("/chaves/**", "/login/**", "/pessoas/**", "/componentes/**", "/emprestimos/**").permitAll();
                     // Permitir login
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     // Somente administradores podem cadastrar novos usuários
